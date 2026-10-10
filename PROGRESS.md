@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 0, foundations.** Beat 0.3, docker-compose
+**Beat 1, the spec.** Beat 0.3, docker-compose
 pinned to Python 3.13.
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
@@ -26,16 +26,16 @@ actually true, not when the code merely exists.
 - [x] 0.3 docker-compose at root with Postgres 17 and Redis
 - [x] 0.4 .env.example, .env gitignored
 - [x] 0.5 GitHub Actions running ruff, mypy, pytest. Proved it fails, then passes
-- [ ] 0.6 gitleaks in CI (Trivy moves to Beat 9, with the Dockerfile)
+- [x] 0.6 gitleaks in CI (Trivy moves to Beat 9, with the Dockerfile)
 
 ### Beat 1, the spec
-- [ ] 1.1 Tool list fixed, read and write split declared
-- [ ] 1.2 Refund eligibility rules written in exact terms
-- [ ] 1.3 Hard refund cap chosen and written down
-- [ ] 1.4 Every escalation condition enumerated
-- [ ] 1.5 Output contract as a Pydantic model
-- [ ] 1.6 Refusal list written
-- [ ] 1.7 docs/SPEC.md committed
+- [x] 1.1 Tool list fixed, read and write split declared
+- [x] 1.2 Refund eligibility rules written in exact terms
+- [x] 1.3 Hard refund cap chosen and written down
+- [x] 1.4 Every escalation condition enumerated
+- [x] 1.5 Output contract as a Pydantic model
+- [x] 1.6 Refusal list written
+- [x] 1.7 docs/SPEC.md committed
 
 ### Beat 2, the world
 - [ ] 2.1 SQLAlchemy models for all seven tables
