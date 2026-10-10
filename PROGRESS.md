@@ -24,7 +24,7 @@ actually true, not when the code merely exists.
 - [x] 0.1 uv init, pyproject.toml, Python 3.13
 - [x] 0.2 ruff, mypy strict, pytest, pre-commit wired
 - [x] 0.3 docker-compose at root with Postgres 17 and Redis
-- [ ] 0.4 .env.example, .env gitignored
+- [x] 0.4 .env.example, .env gitignored
 - [ ] 0.5 GitHub Actions running ruff, mypy, pytest. Proved it fails, then passes
 - [ ] 0.6 gitleaks and Trivy in CI
 
