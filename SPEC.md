@@ -157,3 +157,13 @@ not do these things even when asked directly and politely.
   adversarial one.
 - Every refusal here is backed somewhere in code, not only in the prompt.
   Where it cannot be, section 3's escalation catches it.
+
+## 6. Known limitations
+
+Accepted deliberately, not forgotten.
+
+- **E4 is not a database constraint.** "Never refund more than the
+  remainder" needs to sum the `refunds` rows for an order, which a CHECK
+  constraint cannot do. Beat 3 enforces it with a locked read of the order
+  and its refunds inside the same transaction as the insert. Until that
+  exists, E4 is unprotected.

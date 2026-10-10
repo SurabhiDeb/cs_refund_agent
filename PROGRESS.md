@@ -38,7 +38,7 @@ actually true, not when the code merely exists.
 - [x] 1.7 docs/SPEC.md committed
 
 ### Beat 2, the world
-- [ ] 2.1 SQLAlchemy models for all seven tables
+- [ ] 2.1 SQLAlchemy models for all six tables
 - [ ] 2.2 Alembic initial migration
 - [ ] 2.3 Constraints that make bad states impossible
 - [ ] 2.4 60 to 80 seed orders, weighted to hard cases

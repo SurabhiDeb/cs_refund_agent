@@ -6,7 +6,12 @@ authors = [
     { name = "Surabhi Deb", email = "54979440+SurabhiDeb@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "alembic>=1.20.0",
+    "psycopg[binary]>=3.3.6",
+    "pydantic-settings>=2.15.0",
+    "sqlalchemy>=2.1.4",
+]
 
 [project.scripts]
 ops-agent = "ops_agent:main"
