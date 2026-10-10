@@ -16,7 +16,7 @@ Goal: an empty project that already enforces quality.
 4. `.env.example` with every variable named, no values. `.env` gitignored.
 5. GitHub Actions workflow that runs ruff, mypy, pytest. Prove it fails on
    purpose, then make it pass.
-6. Add gitleaks and Trivy to CI.
+6. Add gitleaks in CI (Trivy moves to Beat 9, with the Dockerfile)
 
 Done when: `docker compose up` gives you all four services, CI is green, and
 a deliberately bad commit is blocked.
@@ -186,6 +186,7 @@ Goal: something a client can call.
 4. 422 on bad input, 503 from health when a dependency is down.
 5. PII redaction in logs and in traces, both.
 6. Docker multi stage, non root, no secrets in the image.
+7. Trivy image scan in CI
 
 Done when: an unauthenticated call cannot reach a tool, proved by a test.
 

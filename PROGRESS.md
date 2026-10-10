@@ -25,8 +25,8 @@ actually true, not when the code merely exists.
 - [x] 0.2 ruff, mypy strict, pytest, pre-commit wired
 - [x] 0.3 docker-compose at root with Postgres 17 and Redis
 - [x] 0.4 .env.example, .env gitignored
-- [ ] 0.5 GitHub Actions running ruff, mypy, pytest. Proved it fails, then passes
-- [ ] 0.6 gitleaks and Trivy in CI
+- [x] 0.5 GitHub Actions running ruff, mypy, pytest. Proved it fails, then passes
+- [ ] 0.6 gitleaks in CI (Trivy moves to Beat 9, with the Dockerfile)
 
 ### Beat 1, the spec
 - [ ] 1.1 Tool list fixed, read and write split declared
@@ -97,6 +97,7 @@ actually true, not when the code merely exists.
 - [ ] 9.5 PII redaction in logs and traces
 - [ ] 9.6 Docker multi stage, non root, no secrets in image
 - [ ] 9.7 Test proving an unauthenticated call cannot reach a tool
+- [ ] 9.8 Trivy image scan in CI
 
 ### Beat 10, observability
 - [ ] 10.1 OTel spans on every agent step and tool call
