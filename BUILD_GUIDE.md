@@ -11,7 +11,8 @@ Goal: an empty project that already enforces quality.
 
 1. `uv init`, Python 3.13, `pyproject.toml`.
 2. Add ruff, mypy strict, pytest, pre-commit. Wire pre-commit hooks.
-3. `ops/docker-compose.yml` with Postgres 17, Redis, Temporal, Langfuse.
+3. `docker-compose.yml` at the root with Postgres 17 and Redis.
+   Temporal is added at Beat 8, Langfuse at Beat 10.
 4. `.env.example` with every variable named, no values. `.env` gitignored.
 5. GitHub Actions workflow that runs ruff, mypy, pytest. Prove it fails on
    purpose, then make it pass.

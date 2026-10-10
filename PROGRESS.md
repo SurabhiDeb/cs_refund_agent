@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 0, foundations.** Start with step 0.1, `uv init` and `pyproject.toml`
+**Beat 0, foundations.** Beat 0.3, docker-compose
 pinned to Python 3.13.
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
@@ -21,9 +21,9 @@ Tick a box only when the beat's "Done when" line in BUILD_GUIDE.md is
 actually true, not when the code merely exists.
 
 ### Beat 0, foundations
-- [ ] 0.1 uv init, pyproject.toml, Python 3.13
-- [ ] 0.2 ruff, mypy strict, pytest, pre-commit wired
-- [ ] 0.3 docker-compose with Postgres 17, Redis, Temporal, Langfuse
+- [x] 0.1 uv init, pyproject.toml, Python 3.13
+- [x] 0.2 ruff, mypy strict, pytest, pre-commit wired
+- [x] 0.3 docker-compose at root with Postgres 17 and Redis
 - [ ] 0.4 .env.example, .env gitignored
 - [ ] 0.5 GitHub Actions running ruff, mypy, pytest. Proved it fails, then passes
 - [ ] 0.6 gitleaks and Trivy in CI
