@@ -31,6 +31,7 @@ dev = [
 [tool.ruff]
 line-length = 88
 target-version = "py313"
+extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "ARG", "SIM"]
@@ -39,6 +40,7 @@ select = ["E", "F", "I", "B", "UP", "ARG", "SIM"]
 python_version = "3.13"
 strict = true
 warn_unreachable = true
+exclude = ["migrations/"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
