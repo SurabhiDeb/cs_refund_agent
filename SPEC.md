@@ -179,3 +179,7 @@ Accepted deliberately, not forgotten.
   `refunds_after_minor`. Those are not re-verified against the current
   database. Correct for reporting, wrong if you assume the database still
   looks that way.
+- **R5 is not enforced in code.** "One issue_refund per conversation" lives
+  only in SPEC. C1 called it three times with different idempotency keys and
+  the E4 remainder check stopped the extras, not idempotency. A tool layer
+  fix, not a prompt fix.

@@ -157,6 +157,7 @@ def run_case(
     tool_ctx = ToolContext(customer_id=goal["customer_id"], write_enabled=write_enabled)
     deps = Deps(tool_ctx=tool_ctx, session=session)
     order_id = goal["order_id"]
+    user_turn = f"Order reference {order_id}\n\nCustomer message\n{goal['request']}"
 
     refunded_before = _refunded(session, order_id)
     started = time.monotonic()
@@ -168,9 +169,7 @@ def run_case(
     # Without it, a failure records nothing at all, including its cost.
     with capture_run_messages() as messages:
         try:
-            result = agent.run_sync(
-                goal["request"], deps=deps, usage_limits=USAGE_LIMITS
-            )
+            result = agent.run_sync(user_turn, deps=deps, usage_limits=USAGE_LIMITS)
             outcome = result.output
         except UsageLimitExceeded:
             # X7. A loop is not an answer, so the run escalates.

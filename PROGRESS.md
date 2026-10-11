@@ -57,7 +57,7 @@ actually true, not when the code merely exists.
 - [x] 4.2 prompts/v1.md, deliberately crude
 - [x] 4.3 Max step limit, overrun escalates
 - [x] 4.4 Full trajectory capture including the database diff
-- [ ] 4.5 Cache keyed on the whole message array plus tool schemas
+- [x] 4.5 Cache keyed on the whole message array plus tool schemas
 - [ ] 4.6 All fixtures run, one run record with full provenance
 
 ### Beat 5, error analysis
@@ -132,12 +132,42 @@ actually true, not when the code merely exists.
 Created the folder, CLAUDE.md, BUILD_GUIDE.md, and this file. Nothing built.
 
 ---
+### Session 1, Beat 4 closed
+Order id now goes into the user turn and the six policy topics are named in
+the get_refund_policy docstring. All 70 cases run, record saved.
+---
 
 ## Known limitations
 
-Nothing to record yet. Accepted deliberately, not forgotten.
+Accepted deliberately, not forgotten.
+
+- **E4 is not a database constraint.** "Never refund more than the
+  remainder" needs to sum the `refunds` rows for an order, which a CHECK
+  constraint cannot do. Beat 3 enforces it with a locked read of the order
+  and its refunds inside the same transaction as the insert. Until that
+  exists, E4 is unprotected.
+  - **No tickets table.** `escalate_to_human` returns a derived ticket id and
+  records the escalation in `audit_log`. There is nowhere for a human to
+  actually pick the case up. Fine while nothing is live, a gap before Beat 9.
+- **The audit row is written in its own transaction.** That keeps a refused
+  attempt on record, but it means a crash between the audit write and the
+  refund write can leave an "allowed" audit row with no refund beside it.
+  Beat 8 replaces this with Temporal.
+- **A replayed run reports stale database numbers.** The cache returns the
+  record from the original run, including `refunds_before_minor` and
+  `refunds_after_minor`. Those are not re-verified against the current
+  database. Correct for reporting, wrong if you assume the database still
+  looks that way.
+- **R5 is not enforced in code.** "One issue_refund per conversation" lives
+  only in SPEC. C1 called it three times with different idempotency keys and
+  the E4 remainder check stopped the extras, not idempotency. A tool layer
+  fix, not a prompt fix.
+
 
 ## Open questions
 
 Which model to pin at Beat 4. Decide after the matrix at Beat 7, not before.
 Whether the refund cap is a single number or tiered by customer history.
+
+Whether a request with no order id should escalate X5. Needs its own fixture
+and is a v2 candidate for Beat 7.

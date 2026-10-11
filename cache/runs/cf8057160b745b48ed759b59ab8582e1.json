@@ -1,0 +1,694 @@
+{
+  "case": "C6",
+  "order_id": "ord_C6_01",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refund",
+  "expected_reason": "E4 remainder",
+  "expected_refund_minor": 2500,
+  "expected_final_refunds_total_minor": 4000,
+  "decision": "refund",
+  "reason_code": "DAMAGED_ITEM",
+  "outcome": {
+    "decision": "refund",
+    "amount_minor": 2500,
+    "reason_code": "DAMAGED_ITEM",
+    "reason_text": "Customer reports the Backpack arrived damaged. Order ord_C6_01 was delivered 2026-10-05. Policy REF-106 (damaged) allows a damaged item to be refunded on its own. Refundable remainder is GBP 25.00 (4000 total less 1500 already refunded). Refund of 2500 minor units issued (ref_0addc3e8807c60a99f8b0f48).",
+    "policy_article": "REF-106",
+    "confidence": 0.9
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C6_01\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":2500,\"idempotency_key\":\"refund-ord_C6_01-damaged-2500\",\"order_id\":\"ord_C6_01\",\"reason\":\"Item arrived damaged (Backpack, SKU-C6-1). Per policy REF-106, a damaged item may be refunded on its own. Refundable remainder: 2500 (4000 total less 1500 already refunded).\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":2500,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"Customer reports the Backpack arrived damaged. Order ord_C6_01 was delivered 2026-10-05. Policy REF-106 (damaged) allows a damaged item to be refunded on its own. Refundable remainder is GBP 25.00 (4000 total less 1500 already refunded). Refund of 2500 minor units issued (ref_0addc3e8807c60a99f8b0f48).\"}"
+    }
+  ],
+  "step_count": 13,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C6_01\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:06:39.555267Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:39.555749Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01JaeKjFYQbAHyVPGZ3pA8oH",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01HanvsaZC45D8nYGHoKF7s3",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01QaiWxK8DBHRDcuSkr9PsKL",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_017ZYoyi8FJNE2jVeLdv3b7Y",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1295
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:41.095195Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:41Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C6_01",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 4000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 1500,
+            "refundable_remainder_minor": 2500
+          },
+          "tool_call_id": "toolu_01JaeKjFYQbAHyVPGZ3pA8oH",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:41.110292Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C6_01_1",
+              "sku": "SKU-C6-1",
+              "name": "Backpack",
+              "quantity": 1,
+              "unit_price_minor": 4000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01HanvsaZC45D8nYGHoKF7s3",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:41.111408Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 32
+          },
+          "tool_call_id": "toolu_01QaiWxK8DBHRDcuSkr9PsKL",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:41.112674Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_017ZYoyi8FJNE2jVeLdv3b7Y",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:41.109481Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:41.113518Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01Ut44kVUu5zGz5khGGtGYKr",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01R86AvHy5uX747uqr3iQ4Xh",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01RR3ahcnzrX2DFZ1LUtWR2D",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_016kcGTGCauqpq3H4qK9onED",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1850,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1352
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:42.554109Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:42Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C6_01",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 4000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 1500,
+            "refundable_remainder_minor": 2500
+          },
+          "tool_call_id": "toolu_01Ut44kVUu5zGz5khGGtGYKr",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:42.566230Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C6_01_1",
+              "sku": "SKU-C6-1",
+              "name": "Backpack",
+              "quantity": 1,
+              "unit_price_minor": 4000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01R86AvHy5uX747uqr3iQ4Xh",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:42.567154Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 32
+          },
+          "tool_call_id": "toolu_01RR3ahcnzrX2DFZ1LUtWR2D",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:42.568298Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_016kcGTGCauqpq3H4qK9onED",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:42.565529Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:42.569116Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01YGEbrg8EGN2yUv1oAg7ZSQ",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C6_01\"}",
+          "tool_call_id": "toolu_01AH8QmGVrQ1eY97RCC7rFXs",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01BATL4Qf6oHZx7DSoAqj7zC",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2273,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 150,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1289
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:43.943970Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:43Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C6_01",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 4000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 1500,
+            "refundable_remainder_minor": 2500
+          },
+          "tool_call_id": "toolu_01YGEbrg8EGN2yUv1oAg7ZSQ",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:43.956598Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C6_01_1",
+              "sku": "SKU-C6-1",
+              "name": "Backpack",
+              "quantity": 1,
+              "unit_price_minor": 4000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01AH8QmGVrQ1eY97RCC7rFXs",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:43.957783Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01BATL4Qf6oHZx7DSoAqj7zC",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:43.954952Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:43.958649Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":2500,\"idempotency_key\":\"refund-ord_C6_01-damaged-2500\",\"order_id\":\"ord_C6_01\",\"reason\":\"Item arrived damaged (Backpack, SKU-C6-1). Per policy REF-106, a damaged item may be refunded on its own. Refundable remainder: 2500 (4000 total less 1500 already refunded).\"}",
+          "tool_call_id": "toolu_012NdcVLboyGLKcG23CyQ2r3",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2619,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 209,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1679
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:45.804059Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:45Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refund_id": "ref_0addc3e8807c60a99f8b0f48",
+            "amount_minor": 2500,
+            "status": "succeeded",
+            "replayed": false
+          },
+          "tool_call_id": "toolu_012NdcVLboyGLKcG23CyQ2r3",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:45.830754Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:45.831895Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":2500,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"Customer reports the Backpack arrived damaged. Order ord_C6_01 was delivered 2026-10-05. Policy REF-106 (damaged) allows a damaged item to be refunded on its own. Refundable remainder is GBP 25.00 (4000 total less 1500 already refunded). Refund of 2500 minor units issued (ref_0addc3e8807c60a99f8b0f48).\"}",
+          "tool_call_id": "toolu_01Cvq4S2J55w8XZDZur9Kc6s",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2706,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 308,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1910
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:47.830139Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:47Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01Cvq4S2J55w8XZDZur9Kc6s",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:47.833768Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:47.833864Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb7-5cc0-72f0-8b86-6f91822d6a0d",
+      "conversation_id": "01a12bb7-5cc0-72f0-8b86-6f92007e1b86",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 5,
+  "input_tokens": 10870,
+  "output_tokens": 1015,
+  "cost_inr": 0.1624,
+  "seconds": 8.287,
+  "refunds_before_minor": 1500,
+  "refunds_after_minor": 4000,
+  "refund_written_minor": 2500,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

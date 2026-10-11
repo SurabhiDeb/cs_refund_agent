@@ -1,0 +1,520 @@
+{
+  "case": "C5",
+  "order_id": "ord_C5_05",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refuse",
+  "expected_reason": "E4",
+  "expected_refund_minor": null,
+  "expected_final_refunds_total_minor": 3000,
+  "decision": "refuse",
+  "reason_code": "already_refunded",
+  "outcome": {
+    "decision": "refuse",
+    "amount_minor": null,
+    "reason_code": "already_refunded",
+    "reason_text": "Order ord_C5_05 (Water Bottle, GBP 30.00) has already been fully refunded: 3000 of 3000 minor units refunded, refundable remainder 0. No further refund can be issued. Damage policy (REF-106) allows refund of a damaged item, but the item has already been refunded in full.",
+    "policy_article": "REF-106",
+    "confidence": 0.9
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C5_05\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C5_05\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C5_05\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C5_05\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"confidence\":0.9,\"decision\":\"refuse\",\"policy_article\":\"REF-106\",\"reason_code\":\"already_refunded\",\"reason_text\":\"Order ord_C5_05 (Water Bottle, GBP 30.00) has already been fully refunded: 3000 of 3000 minor units refunded, refundable remainder 0. No further refund can be issued. Damage policy (REF-106) allows refund of a damaged item, but the item has already been refunded in full.\"}"
+    }
+  ],
+  "step_count": 9,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C5_05\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:06:33.417260Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:33.423818Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C5_05\"}",
+          "tool_call_id": "toolu_01AjYnxTTezNXNLPLAuKcieD",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C5_05\"}",
+          "tool_call_id": "toolu_015jfLWCC8mGZ2EH2jWNzQi8",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01UxW5y4jNKCB3wo6hpS8gGw",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 123,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1272
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:34.911615Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:34Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C5_05",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 3000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 3000,
+            "refundable_remainder_minor": 0
+          },
+          "tool_call_id": "toolu_01AjYnxTTezNXNLPLAuKcieD",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:34.927302Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C5_05_1",
+              "sku": "SKU-C5-1",
+              "name": "Water Bottle",
+              "quantity": 1,
+              "unit_price_minor": 3000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_015jfLWCC8mGZ2EH2jWNzQi8",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:34.928310Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 32
+          },
+          "tool_call_id": "toolu_01UxW5y4jNKCB3wo6hpS8gGw",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:34.929150Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:34.930218Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_015F76rvd41DNRYNPMETKtmL",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1769,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 44,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1096
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:36.101157Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:36Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_015F76rvd41DNRYNPMETKtmL",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:36.108494Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:36.109470Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C5_05\"}",
+          "tool_call_id": "toolu_0142EUBBaTBmTxgikzoDa52Q",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C5_05\"}",
+          "tool_call_id": "toolu_01AcuM49YngJFAYapkb8zVPi",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01GLMtZfed4smufYN8CtcRDQ",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01FYEBFXUocFhv5Q2wd5a9wX",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1845,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1429
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:37.621906Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:37Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C5_05",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 3000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 3000,
+            "refundable_remainder_minor": 0
+          },
+          "tool_call_id": "toolu_0142EUBBaTBmTxgikzoDa52Q",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:37.641930Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C5_05_1",
+              "sku": "SKU-C5-1",
+              "name": "Water Bottle",
+              "quantity": 1,
+              "unit_price_minor": 3000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01AcuM49YngJFAYapkb8zVPi",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:37.642782Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 32
+          },
+          "tool_call_id": "toolu_01GLMtZfed4smufYN8CtcRDQ",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:37.643704Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01FYEBFXUocFhv5Q2wd5a9wX",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:37.640882Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:37.644579Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"confidence\":0.9,\"decision\":\"refuse\",\"policy_article\":\"REF-106\",\"reason_code\":\"already_refunded\",\"reason_text\":\"Order ord_C5_05 (Water Bottle, GBP 30.00) has already been fully refunded: 3000 of 3000 minor units refunded, refundable remainder 0. No further refund can be issued. Damage policy (REF-106) allows refund of a damaged item, but the item has already been refunded in full.\"}",
+          "tool_call_id": "toolu_01HEA1jJCcJ1KtFKriCBvqum",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2267,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 246,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1799
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:06:39.520603Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:06:39Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01HEA1jJCcJ1KtFKriCBvqum",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:06:39.523561Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:06:39.523656Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb7-44c6-7073-a527-a158e531fbc7",
+      "conversation_id": "01a12bb7-44c6-7073-a527-a159f88dde64",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 4,
+  "input_tokens": 7303,
+  "output_tokens": 587,
+  "cost_inr": 0.1043,
+  "seconds": 6.113,
+  "refunds_before_minor": 3000,
+  "refunds_after_minor": 3000,
+  "refund_written_minor": 0,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

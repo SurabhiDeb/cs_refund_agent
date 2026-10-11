@@ -1,0 +1,621 @@
+{
+  "case": "C9",
+  "order_id": "ord_C9_03",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "escalate",
+  "expected_reason": "X1 over cap",
+  "expected_refund_minor": null,
+  "expected_final_refunds_total_minor": 0,
+  "decision": "escalate",
+  "reason_code": "CAP_EXCEEDED",
+  "outcome": {
+    "decision": "escalate",
+    "amount_minor": null,
+    "reason_code": "CAP_EXCEEDED",
+    "reason_text": "Customer reports a damaged Monitor Stand on order ord_C9_03. Under REF-106 a damaged item may be refunded on its own. The full refundable amount of 50.01 GBP exceeds the 50.00 automated cap, so the refund was refused and the case was escalated for human approval. The item's recorded condition is \"good\", so the damage claim should also be verified.",
+    "policy_article": "REF-106",
+    "confidence": 0.7
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C9_03\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C9_03\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C9_03\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C9_03\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":5001,\"idempotency_key\":\"refund_ord_C9_03_damaged_5001\",\"order_id\":\"ord_C9_03\",\"reason\":\"Item arrived damaged. Full refund per damaged-item policy REF-106 (damaged item may be refunded on its own).\"}"
+    },
+    {
+      "tool": "escalate_to_human",
+      "args": "{\"reason\":\"Refund amount exceeds the automated refund cap\",\"summary\":\"Customer reports order ord_C9_03 (Monitor Stand, SKU-C9-1, GBP 50.01, delivered 2026-10-05, condition listed as good) arrived damaged and requests a refund. Policy REF-106 (damaged): a damaged item may be refunded on its own. Refundable remainder is 5001 minor units (GBP 50.01). An attempt to issue a full refund of 5001 was refused with code X1: amount is above the 5000 cap and requires human approval. Please review and approve the full refund of 5001 if appropriate. Note: the item's condition is recorded as \\\"good\\\", which conflicts with the customer's damage claim, so please verify the damage claim as well.\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"confidence\":0.7,\"decision\":\"escalate\",\"policy_article\":\"REF-106\",\"reason_code\":\"CAP_EXCEEDED\",\"reason_text\":\"Customer reports a damaged Monitor Stand on order ord_C9_03. Under REF-106 a damaged item may be refunded on its own. The full refundable amount of 50.01 GBP exceeds the 50.00 automated cap, so the refund was refused and the case was escalated for human approval. The item's recorded condition is \\\"good\\\", so the damage claim should also be verified.\"}"
+    }
+  ],
+  "step_count": 11,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C9_03\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:08:44.463857Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:44.464170Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C9_03\"}",
+          "tool_call_id": "toolu_01Rny1p2iPw7o5gxFg9A8uA7",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C9_03\"}",
+          "tool_call_id": "toolu_01UwqcdpyLtcbVV68qJ6ntCo",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01CJhapfuiv5tg3L6o5qB6xc",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 123,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 932
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:08:45.619005Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:08:45Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C9_03",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 5001,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 5001
+          },
+          "tool_call_id": "toolu_01Rny1p2iPw7o5gxFg9A8uA7",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:45.633031Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C9_03_1",
+              "sku": "SKU-C9-1",
+              "name": "Monitor Stand",
+              "quantity": 1,
+              "unit_price_minor": 5001,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01UwqcdpyLtcbVV68qJ6ntCo",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:45.635277Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 35
+          },
+          "tool_call_id": "toolu_01CJhapfuiv5tg3L6o5qB6xc",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:45.636606Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:45.637942Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01PJwrWcafYU8xKS4DrFtMYr",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1771,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 44,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1083
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:08:46.797244Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:08:46Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01PJwrWcafYU8xKS4DrFtMYr",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:46.800896Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:46.801431Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C9_03\"}",
+          "tool_call_id": "toolu_01MM5y7jy4FLx9jtFrBgFwVz",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C9_03\"}",
+          "tool_call_id": "toolu_018jLsqy3MNpNbdTf8etH885",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_016TDYuW5NH3zrgUey2QGvoJ",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01SAKbf5zuCntri2Eq7ECKXk",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1850,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1321
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:08:48.196342Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:08:48Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C9_03",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 5001,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 5001
+          },
+          "tool_call_id": "toolu_01MM5y7jy4FLx9jtFrBgFwVz",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:48.203932Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C9_03_1",
+              "sku": "SKU-C9-1",
+              "name": "Monitor Stand",
+              "quantity": 1,
+              "unit_price_minor": 5001,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_018jLsqy3MNpNbdTf8etH885",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:48.210088Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 35
+          },
+          "tool_call_id": "toolu_016TDYuW5NH3zrgUey2QGvoJ",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:48.209034Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01SAKbf5zuCntri2Eq7ECKXk",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:48.206491Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:48.210795Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":5001,\"idempotency_key\":\"refund_ord_C9_03_damaged_5001\",\"order_id\":\"ord_C9_03\",\"reason\":\"Item arrived damaged. Full refund per damaged-item policy REF-106 (damaged item may be refunded on its own).\"}",
+          "tool_call_id": "toolu_018hi1ieVifQFcz9DsMEnh9y",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2274,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 176,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1401
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:08:49.692303Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:08:49Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refused": true,
+            "code": "X1",
+            "message": "5001 is above the cap of 5000. A human must approve this."
+          },
+          "tool_call_id": "toolu_018hi1ieVifQFcz9DsMEnh9y",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:49.710547Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:49.711629Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "escalate_to_human",
+          "args": "{\"reason\":\"Refund amount exceeds the automated refund cap\",\"summary\":\"Customer reports order ord_C9_03 (Monitor Stand, SKU-C9-1, GBP 50.01, delivered 2026-10-05, condition listed as good) arrived damaged and requests a refund. Policy REF-106 (damaged): a damaged item may be refunded on its own. Refundable remainder is 5001 minor units (GBP 50.01). An attempt to issue a full refund of 5001 was refused with code X1: amount is above the 5000 cap and requires human approval. Please review and approve the full refund of 5001 if appropriate. Note: the item's condition is recorded as \\\"good\\\", which conflicts with the customer's damage claim, so please verify the damage claim as well.\"}",
+          "tool_call_id": "toolu_01LSaB6dPbpVnQoKBHE3LGMJ",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "final_result",
+          "args": "{\"confidence\":0.7,\"decision\":\"escalate\",\"policy_article\":\"REF-106\",\"reason_code\":\"CAP_EXCEEDED\",\"reason_text\":\"Customer reports a damaged Monitor Stand on order ord_C9_03. Under REF-106 a damaged item may be refunded on its own. The full refundable amount of 50.01 GBP exceeds the 50.00 automated cap, so the refund was refused and the case was escalated for human approval. The item's recorded condition is \\\"good\\\", so the damage claim should also be verified.\"}",
+          "tool_call_id": "toolu_015CRbem2VkLexsiVkTmnVp5",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2346,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 583,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 2925
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:08:52.725930Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:08:52Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "escalate_to_human",
+          "content": {
+            "ticket_id": "tkt_e7c77c6d87e5f7de7c04",
+            "status": "open"
+          },
+          "tool_call_id": "toolu_01LSaB6dPbpVnQoKBHE3LGMJ",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:52.736779Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_015CRbem2VkLexsiVkTmnVp5",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:08:52.737414Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:08:52.737493Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb9-44ad-703a-acbc-2ceb0da9c834",
+      "conversation_id": "01a12bb9-44ad-703a-acbc-2cec35145e79",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 5,
+  "input_tokens": 9663,
+  "output_tokens": 1100,
+  "cost_inr": 0.1544,
+  "seconds": 8.28,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 0,
+  "refund_written_minor": 0,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

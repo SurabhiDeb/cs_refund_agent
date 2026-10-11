@@ -1,0 +1,378 @@
+{
+  "case": "C10",
+  "order_id": "ord_C10_03",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refuse",
+  "expected_reason": "E6",
+  "expected_refund_minor": null,
+  "expected_final_refunds_total_minor": 0,
+  "decision": "refuse",
+  "reason_code": "non_refundable",
+  "outcome": {
+    "decision": "refuse",
+    "amount_minor": null,
+    "reason_code": "non_refundable",
+    "reason_text": "Order ord_C10_03 contains a single Gift Card (25.00 GBP), which is not refundable under policy REF-105, so the damaged-item refund under REF-106 does not apply.",
+    "policy_article": "REF-105",
+    "confidence": 0.9
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C10_03\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C10_03\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"non-refundable\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":null,\"confidence\":0.9,\"decision\":\"refuse\",\"policy_article\":\"REF-105\",\"reason_code\":\"non_refundable\",\"reason_text\":\"Order ord_C10_03 contains a single Gift Card (25.00 GBP), which is not refundable under policy REF-105, so the damaged-item refund under REF-106 does not apply.\"}"
+    }
+  ],
+  "step_count": 6,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C10_03\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:09:01.630257Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:01.630594Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C10_03\"}",
+          "tool_call_id": "toolu_01LE1Xfx6aB3ZNvM6RZAikpH",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C10_03\"}",
+          "tool_call_id": "toolu_01S6kfjcXLKKbgHQTnCuyPGK",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01CE5sLMXsqxXY8i6RVZXY95",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 123,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1317
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:03.166634Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:03Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C10_03",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 2500,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 2500
+          },
+          "tool_call_id": "toolu_01LE1Xfx6aB3ZNvM6RZAikpH",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:03.172155Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C10_03_1",
+              "sku": "SKU-C10-1",
+              "name": "Gift Card 25.00",
+              "quantity": 1,
+              "unit_price_minor": 2500,
+              "condition": "good",
+              "refundable": false
+            }
+          ],
+          "tool_call_id": "toolu_01S6kfjcXLKKbgHQTnCuyPGK",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:03.174685Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 35
+          },
+          "tool_call_id": "toolu_01CE5sLMXsqxXY8i6RVZXY95",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:03.175295Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:03.176037Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01HJua8mcVHsjLMga7ErXBtY",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"non-refundable\"}",
+          "tool_call_id": "toolu_01UN6RxyjppKpyKSgtmnadSA",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1774,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 97,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1238
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:04.497699Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:04Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01HJua8mcVHsjLMga7ErXBtY",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:04.506346Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-105",
+              "topic": "non-refundable",
+              "body": "Gift cards and digital goods are not refundable.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01UN6RxyjppKpyKSgtmnadSA",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:04.505619Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:04.507051Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":null,\"confidence\":0.9,\"decision\":\"refuse\",\"policy_article\":\"REF-105\",\"reason_code\":\"non_refundable\",\"reason_text\":\"Order ord_C10_03 contains a single Gift Card (25.00 GBP), which is not refundable under policy REF-105, so the damaged-item refund under REF-106 does not apply.\"}",
+          "tool_call_id": "toolu_01D4rEwkaHKQpdE3cYxrgWtw",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1934,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 230,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1630
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:06.212696Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:06Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01D4rEwkaHKQpdE3cYxrgWtw",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:06.213984Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:06.214031Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb9-87bb-7369-af54-7eef6ec0986a",
+      "conversation_id": "01a12bb9-87bb-7369-af54-7ef09e70aede",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 3,
+  "input_tokens": 5130,
+  "output_tokens": 450,
+  "cost_inr": 0.0752,
+  "seconds": 4.59,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 0,
+  "refund_written_minor": 0,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

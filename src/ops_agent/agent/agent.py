@@ -99,7 +99,10 @@ def build_agent(prompt_version: str) -> Agent[Deps, Outcome]:
 
     @agent.tool
     def get_refund_policy(ctx: RunContext[Deps], topic: str) -> Any:
-        """Policy articles for a topic, which must be cited in the decision."""
+        """Policy articles for a topic, which must be cited in the decision.
+        Valid topics, exact match only. window, undelivered, partial, cap,
+        non-refundable, damaged.
+        """
         try:
             return reads.get_refund_policy(
                 reads.PolicyArgs(topic=topic), ctx.deps.session

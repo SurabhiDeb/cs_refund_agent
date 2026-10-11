@@ -1,0 +1,394 @@
+{
+  "case": "C11",
+  "order_id": "ord_C11_02",
+  "request": "One of the three plates arrived cracked.",
+  "expected_decision": "refund",
+  "expected_reason": "partial, one item",
+  "expected_refund_minor": 2000,
+  "expected_final_refunds_total_minor": 2000,
+  "decision": "refund",
+  "reason_code": "DAMAGED_ITEM",
+  "outcome": {
+    "decision": "refund",
+    "amount_minor": 2000,
+    "reason_code": "DAMAGED_ITEM",
+    "reason_text": "One of three dinner plates (itm_C11_02_1, GBP 20.00) arrived cracked. Per policy REF-106, a damaged item may be refunded on its own. Refunded 2000 minor units (GBP 20.00). Refund ref_bd6abe9a970853f46db1e8da succeeded.",
+    "policy_article": "REF-106",
+    "confidence": 0.95
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C11_02\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C11_02\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":2000,\"idempotency_key\":\"ord_C11_02_itm_C11_02_1_damaged\",\"order_id\":\"ord_C11_02\",\"reason\":\"Damaged item: one dinner plate (itm_C11_02_1) arrived cracked. Refund for that item only, per policy REF-106.\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":2000,\"confidence\":0.95,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"One of three dinner plates (itm_C11_02_1, GBP 20.00) arrived cracked. Per policy REF-106, a damaged item may be refunded on its own. Refunded 2000 minor units (GBP 20.00). Refund ref_bd6abe9a970853f46db1e8da succeeded.\"}"
+    }
+  ],
+  "step_count": 6,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C11_02\n\nCustomer message\nOne of the three plates arrived cracked.",
+          "timestamp": "2026-10-11T16:09:29.395840Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:29.396139Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C11_02\"}",
+          "tool_call_id": "toolu_01MQQwoFPRWov1USQjzrsW1M",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C11_02\"}",
+          "tool_call_id": "toolu_01Xqqrt96C3FSV9FUmXBoP6p",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01RGctm6V4wNhxr91kB5u5nu",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_012CtQJzjfebKBMjM5LA86vy",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1419,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1355
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:30.990896Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:31Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C11_02",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 6000,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 6000
+          },
+          "tool_call_id": "toolu_01MQQwoFPRWov1USQjzrsW1M",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:31.007431Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C11_02_1",
+              "sku": "SKU-C11-1",
+              "name": "Dinner Plate",
+              "quantity": 1,
+              "unit_price_minor": 2000,
+              "condition": "damaged",
+              "refundable": true
+            },
+            {
+              "item_id": "itm_C11_02_2",
+              "sku": "SKU-C11-2",
+              "name": "Dinner Plate",
+              "quantity": 1,
+              "unit_price_minor": 2000,
+              "condition": "good",
+              "refundable": true
+            },
+            {
+              "item_id": "itm_C11_02_3",
+              "sku": "SKU-C11-3",
+              "name": "Dinner Plate",
+              "quantity": 1,
+              "unit_price_minor": 2000,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01Xqqrt96C3FSV9FUmXBoP6p",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:31.008540Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 38
+          },
+          "tool_call_id": "toolu_01RGctm6V4wNhxr91kB5u5nu",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:31.009804Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_012CtQJzjfebKBMjM5LA86vy",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:31.006449Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:31.010559Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":2000,\"idempotency_key\":\"ord_C11_02_itm_C11_02_1_damaged\",\"order_id\":\"ord_C11_02\",\"reason\":\"Damaged item: one dinner plate (itm_C11_02_1) arrived cracked. Refund for that item only, per policy REF-106.\"}",
+          "tool_call_id": "toolu_01KEd1SMQ2DBNtVPyRTnADKu",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1988,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 186,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 2050
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:33.135736Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:33Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refund_id": "ref_bd6abe9a970853f46db1e8da",
+            "amount_minor": 2000,
+            "status": "succeeded",
+            "replayed": false
+          },
+          "tool_call_id": "toolu_01KEd1SMQ2DBNtVPyRTnADKu",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:33.167613Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:33.168754Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":2000,\"confidence\":0.95,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"One of three dinner plates (itm_C11_02_1, GBP 20.00) arrived cracked. Per policy REF-106, a damaged item may be refunded on its own. Refunded 2000 minor units (GBP 20.00). Refund ref_bd6abe9a970853f46db1e8da succeeded.\"}",
+          "tool_call_id": "toolu_01EsoPcur7rU1hGdY6qZDJYN",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2076,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 278,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1723
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:09:34.975710Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:09:35Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01EsoPcur7rU1hGdY6qZDJYN",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:09:34.980358Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:09:34.980495Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb9-f431-76ef-963f-dd81e635b645",
+      "conversation_id": "01a12bb9-f431-76ef-963f-dd82659c7f0b",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 3,
+  "input_tokens": 5483,
+  "output_tokens": 638,
+  "cost_inr": 0.0883,
+  "seconds": 5.596,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 2000,
+  "refund_written_minor": 2000,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

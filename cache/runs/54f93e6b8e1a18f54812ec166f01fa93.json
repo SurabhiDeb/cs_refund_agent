@@ -1,0 +1,846 @@
+{
+  "case": "C1",
+  "order_id": "ord_C1_05",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refund",
+  "expected_reason": "eligible",
+  "expected_refund_minor": 3200,
+  "expected_final_refunds_total_minor": 3200,
+  "decision": "refund",
+  "reason_code": "DAMAGED_ITEM",
+  "outcome": {
+    "decision": "refund",
+    "amount_minor": 3200,
+    "reason_code": "DAMAGED_ITEM",
+    "reason_text": "The customer reported the item arrived damaged. Under policy REF-106, a damaged item may be refunded on its own. The single item (Cotton T-shirt, 3200 GBP minor units) is refundable and nothing has been refunded yet, so a full refund of 3200 was issued (refund ref_eb36ed100a5945fefb85def6).",
+    "policy_article": "REF-106",
+    "confidence": 0.9
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C1_05\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":3200,\"idempotency_key\":\"refund_ord_C1_05_damaged_3200\",\"order_id\":\"ord_C1_05\",\"reason\":\"Item arrived damaged. Full refund per policy REF-106 (damaged item may be refunded on its own).\"}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":3200,\"idempotency_key\":\"refund_ord_C1_05_damaged_3200\",\"order_id\":\"ord_C1_05\",\"reason\":\"Item arrived damaged (Cotton T-shirt, SKU-C1-1). Full refund per damaged-item policy REF-106.\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":3200,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"The customer reported the item arrived damaged. Under policy REF-106, a damaged item may be refunded on its own. The single item (Cotton T-shirt, 3200 GBP minor units) is refundable and nothing has been refunded yet, so a full refund of 3200 was issued (refund ref_eb36ed100a5945fefb85def6).\"}"
+    }
+  ],
+  "step_count": 15,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C1_05\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:03:03.674020Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:03.674310Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_01VgSTm5Nv9WBvi5v7r6E7vm",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_012ytTXBi9B5yeoxoPyby8hT",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_015pgDhaftXd5m2GYjvqZvcD",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01WXBfByGVoouFvaif6Va6yx",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1436
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:05.435579Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:05Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C1_05",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 3200,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 3200
+          },
+          "tool_call_id": "toolu_01VgSTm5Nv9WBvi5v7r6E7vm",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:05.449454Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C1_05_1",
+              "sku": "SKU-C1-1",
+              "name": "Cotton T-shirt",
+              "quantity": 1,
+              "unit_price_minor": 3200,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_012ytTXBi9B5yeoxoPyby8hT",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:05.451681Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 17
+          },
+          "tool_call_id": "toolu_015pgDhaftXd5m2GYjvqZvcD",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:05.453832Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01WXBfByGVoouFvaif6Va6yx",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:05.448201Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:05.454645Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_01LWMSspQk5ABtKoSQccYsks",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1848,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 47,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1113
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:06.642371Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:06Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C1_05_1",
+              "sku": "SKU-C1-1",
+              "name": "Cotton T-shirt",
+              "quantity": 1,
+              "unit_price_minor": 3200,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01LWMSspQk5ABtKoSQccYsks",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:06.659985Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:06.663944Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01DwjAmk8Q2kuC14nEV4BV6P",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_015vDUDqg6XyJ5nVTMczXLFz",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1957,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 98,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 910
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:07.667762Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:07Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01DwjAmk8Q2kuC14nEV4BV6P",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:07.675365Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C1_05_1",
+              "sku": "SKU-C1-1",
+              "name": "Cotton T-shirt",
+              "quantity": 1,
+              "unit_price_minor": 3200,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_015vDUDqg6XyJ5nVTMczXLFz",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:07.677733Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:07.678785Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_019m5iaCVXvrX3ior1413NiB",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_01EWvqXkWZQ2HRosb1CqDdn5",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C1_05\"}",
+          "tool_call_id": "toolu_01N58DdnZrs4gcH4V18D6aBk",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2148,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 150,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1413
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:09.171887Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:09Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_019m5iaCVXvrX3ior1413NiB",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:09.178971Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C1_05",
+            "status": "delivered",
+            "placed_at": "2026-10-02T12:00:00+00:00",
+            "delivered_at": "2026-10-05T12:00:00+00:00",
+            "total_minor": 3200,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 3200
+          },
+          "tool_call_id": "toolu_01EWvqXkWZQ2HRosb1CqDdn5",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:09.180978Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C1_05_1",
+              "sku": "SKU-C1-1",
+              "name": "Cotton T-shirt",
+              "quantity": 1,
+              "unit_price_minor": 3200,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01N58DdnZrs4gcH4V18D6aBk",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:09.178369Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:09.181549Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01RBwSYXyZPv56sjxQoFAajd",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01F9skmdTg2A4mPeUeqEH4x5",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2490,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 68,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1207
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:10.484959Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:10Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01RBwSYXyZPv56sjxQoFAajd",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:10.491642Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 17
+          },
+          "tool_call_id": "toolu_01F9skmdTg2A4mPeUeqEH4x5",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:10.494424Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:10.495171Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":3200,\"idempotency_key\":\"refund_ord_C1_05_damaged_3200\",\"order_id\":\"ord_C1_05\",\"reason\":\"Item arrived damaged. Full refund per policy REF-106 (damaged item may be refunded on its own).\"}",
+          "tool_call_id": "toolu_012pmn32xSYmjCt69Yw7g81E",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2651,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 171,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1493
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:12.072415Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:12Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refund_id": "ref_eb36ed100a5945fefb85def6",
+            "amount_minor": 3200,
+            "status": "succeeded",
+            "replayed": false
+          },
+          "tool_call_id": "toolu_012pmn32xSYmjCt69Yw7g81E",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:12.097549Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:12.099062Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":3200,\"idempotency_key\":\"refund_ord_C1_05_damaged_3200\",\"order_id\":\"ord_C1_05\",\"reason\":\"Item arrived damaged (Cotton T-shirt, SKU-C1-1). Full refund per damaged-item policy REF-106.\"}",
+          "tool_call_id": "toolu_011WYTmWBtPygNPsRas3FJCy",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":3200,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGED_ITEM\",\"reason_text\":\"The customer reported the item arrived damaged. Under policy REF-106, a damaged item may be refunded on its own. The single item (Cotton T-shirt, 3200 GBP minor units) is refundable and nothing has been refunded yet, so a full refund of 3200 was issued (refund ref_eb36ed100a5945fefb85def6).\"}",
+          "tool_call_id": "toolu_01REt5XCt2AWo6AocfpEVBj6",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2735,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 475,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 2464
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:14.651532Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:14Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refund_id": "ref_eb36ed100a5945fefb85def6",
+            "amount_minor": 3200,
+            "status": "succeeded",
+            "replayed": true
+          },
+          "tool_call_id": "toolu_011WYTmWBtPygNPsRas3FJCy",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:14.668373Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01REt5XCt2AWo6AocfpEVBj6",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:14.669038Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:14.669120Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb4-1178-7399-adcc-eb4a286934ea",
+      "conversation_id": "01a12bb4-1178-7399-adcc-eb4b8f5d921a",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 7,
+  "input_tokens": 15251,
+  "output_tokens": 1183,
+  "cost_inr": 0.2157,
+  "seconds": 11.001,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 3200,
+  "refund_written_minor": 3200,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

@@ -1,0 +1,424 @@
+{
+  "case": "C14",
+  "order_id": "ord_C14_01",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refund",
+  "expected_reason": "E3 exactly day 30",
+  "expected_refund_minor": 2600,
+  "expected_final_refunds_total_minor": 2600,
+  "decision": "refund",
+  "reason_code": "damaged_item",
+  "outcome": {
+    "decision": "refund",
+    "amount_minor": 2600,
+    "reason_code": "damaged_item",
+    "reason_text": "Order ord_C14_01 (Travel Adapter, GBP 26.00) was delivered and reported damaged. Per policy REF-106, a damaged item may be refunded on its own. Full refundable amount of 2600 minor units approved.",
+    "policy_article": "REF-106",
+    "confidence": 0.8
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C14_01\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C14_01\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":2600,\"confidence\":0.8,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"damaged_item\",\"reason_text\":\"Order ord_C14_01 (Travel Adapter, GBP 26.00) was delivered and reported damaged. Per policy REF-106, a damaged item may be refunded on its own. Full refundable amount of 2600 minor units approved.\"}"
+    }
+  ],
+  "step_count": 6,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C14_01\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:10:35.465203Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:10:35.465655Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C14_01\"}",
+          "tool_call_id": "toolu_01REWCKaJjbPAXuphbR2jVtB",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C14_01\"}",
+          "tool_call_id": "toolu_018pyMgxU4S75Z3FjECq2ymi",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_016uj7zaMno9g6TgYgL5ctvZ",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 123,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1034
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:10:36.735471Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:10:36Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C14_01",
+            "status": "delivered",
+            "placed_at": "2026-09-07T12:00:00+00:00",
+            "delivered_at": "2026-09-10T12:00:00+00:00",
+            "total_minor": 2600,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 2600
+          },
+          "tool_call_id": "toolu_01REWCKaJjbPAXuphbR2jVtB",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:36.748243Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C14_01_1",
+              "sku": "SKU-C14-1",
+              "name": "Travel Adapter",
+              "quantity": 1,
+              "unit_price_minor": 2600,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_018pyMgxU4S75Z3FjECq2ymi",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:36.749757Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 44
+          },
+          "tool_call_id": "toolu_016uj7zaMno9g6TgYgL5ctvZ",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:36.751201Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:10:36.752202Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01UsvB7RCnYxQ1i4RreojkD9",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1767,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 44,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1020
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:10:37.869453Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:10:37Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01UsvB7RCnYxQ1i4RreojkD9",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:37.877411Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:10:37.878180Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01RjM7HNNjWQg4M1Q3djZBN9",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1846,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 44,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1100
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:10:39.057364Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:10:39Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01RjM7HNNjWQg4M1Q3djZBN9",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:39.065107Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:10:39.066132Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":2600,\"confidence\":0.8,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"damaged_item\",\"reason_text\":\"Order ord_C14_01 (Travel Adapter, GBP 26.00) was delivered and reported damaged. Per policy REF-106, a damaged item may be refunded on its own. Full refundable amount of 2600 minor units approved.\"}",
+          "tool_call_id": "toolu_0188wEErn4DWMcn667gC1DcP",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1926,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 247,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1721
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:10:40.868530Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:10:40Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_0188wEErn4DWMcn667gC1DcP",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:10:40.872627Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:10:40.872780Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bba-f646-753e-a141-ff40bff03a91",
+      "conversation_id": "01a12bba-f646-753e-a141-ff4178835890",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 4,
+  "input_tokens": 6961,
+  "output_tokens": 458,
+  "cost_inr": 0.0943,
+  "seconds": 5.414,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 0,
+  "refund_written_minor": 0,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

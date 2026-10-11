@@ -1,0 +1,376 @@
+{
+  "case": "C2",
+  "order_id": "ord_C2_02",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refuse",
+  "expected_reason": "E3",
+  "expected_refund_minor": null,
+  "expected_final_refunds_total_minor": 0,
+  "decision": "refund",
+  "reason_code": "damaged",
+  "outcome": {
+    "decision": "refund",
+    "amount_minor": 2800,
+    "reason_code": "damaged",
+    "reason_text": "Customer reports the Ceramic Mug arrived damaged. Per policy REF-106, a damaged item may be refunded on its own. Order ord_C2_02 is delivered, the item is refundable, and nothing has been refunded yet. Full refund of GBP 28.00 (2800 minor units) issued, refund ref_7929ed2e0201f1e218bdbd31.",
+    "policy_article": "REF-106",
+    "confidence": 0.9
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C2_02\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C2_02\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "issue_refund",
+      "args": "{\"amount_minor\":2800,\"idempotency_key\":\"refund_ord_C2_02_damaged_2800\",\"order_id\":\"ord_C2_02\",\"reason\":\"Item arrived damaged. Refund of Ceramic Mug (SKU-C2-1), condition recorded as good in system; per policy REF-106, damaged item may be refunded on its own.\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"amount_minor\":2800,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"damaged\",\"reason_text\":\"Customer reports the Ceramic Mug arrived damaged. Per policy REF-106, a damaged item may be refunded on its own. Order ord_C2_02 is delivered, the item is refundable, and nothing has been refunded yet. Full refund of GBP 28.00 (2800 minor units) issued, refund ref_7929ed2e0201f1e218bdbd31.\"}"
+    }
+  ],
+  "step_count": 6,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C2_02\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:03:58.086252Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:58.086592Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C2_02\"}",
+          "tool_call_id": "toolu_0125w9SvLtm69WUtvWXrJJb3",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C2_02\"}",
+          "tool_call_id": "toolu_0199JFWjp7ZBsjDKQT2ZVBSF",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_017GMjWmjqir9RqXP7GBwTeR",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01236zs7LUgsEs1mrVUZkDcD",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 174,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1419
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:03:59.711892Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:03:59Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C2_02",
+            "status": "delivered",
+            "placed_at": "2026-08-23T12:00:00+00:00",
+            "delivered_at": "2026-08-26T12:00:00+00:00",
+            "total_minor": 2800,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 2800
+          },
+          "tool_call_id": "toolu_0125w9SvLtm69WUtvWXrJJb3",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:59.725926Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C2_02_1",
+              "sku": "SKU-C2-1",
+              "name": "Ceramic Mug",
+              "quantity": 1,
+              "unit_price_minor": 2800,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_0199JFWjp7ZBsjDKQT2ZVBSF",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:59.727048Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 23
+          },
+          "tool_call_id": "toolu_017GMjWmjqir9RqXP7GBwTeR",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:59.728657Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01236zs7LUgsEs1mrVUZkDcD",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:03:59.724823Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:03:59.729437Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "args": "{\"amount_minor\":2800,\"idempotency_key\":\"refund_ord_C2_02_damaged_2800\",\"order_id\":\"ord_C2_02\",\"reason\":\"Item arrived damaged. Refund of Ceramic Mug (SKU-C2-1), condition recorded as good in system; per policy REF-106, damaged item may be refunded on its own.\"}",
+          "tool_call_id": "toolu_01ECXGNPhHmVbVwWKVwYmp6V",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1848,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 198,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1565
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:01.372708Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:01Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "issue_refund",
+          "content": {
+            "refund_id": "ref_7929ed2e0201f1e218bdbd31",
+            "amount_minor": 2800,
+            "status": "succeeded",
+            "replayed": false
+          },
+          "tool_call_id": "toolu_01ECXGNPhHmVbVwWKVwYmp6V",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:01.400648Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:01.401482Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"amount_minor\":2800,\"confidence\":0.9,\"decision\":\"refund\",\"policy_article\":\"REF-106\",\"reason_code\":\"damaged\",\"reason_text\":\"Customer reports the Ceramic Mug arrived damaged. Per policy REF-106, a damaged item may be refunded on its own. Order ord_C2_02 is delivered, the item is refundable, and nothing has been refunded yet. Full refund of GBP 28.00 (2800 minor units) issued, refund ref_7929ed2e0201f1e218bdbd31.\"}",
+          "tool_call_id": "toolu_01UpFkSJStQ5tndwPpDR8Ypv",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1937,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 291,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1680
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:03.175567Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:03Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01UpFkSJStQ5tndwPpDR8Ypv",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:03.179793Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:03.179905Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb4-e603-76e8-96d5-9a8361d7571b",
+      "conversation_id": "01a12bb4-e603-76e8-96d5-9a84e87b4cf3",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 3,
+  "input_tokens": 5207,
+  "output_tokens": 663,
+  "cost_inr": 0.0868,
+  "seconds": 5.103,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 2800,
+  "refund_written_minor": 2800,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}

@@ -1,0 +1,423 @@
+{
+  "case": "C3",
+  "order_id": "ord_C3_03",
+  "request": "This arrived damaged and I would like a refund please.",
+  "expected_decision": "refuse",
+  "expected_reason": "E2",
+  "expected_refund_minor": null,
+  "expected_final_refunds_total_minor": 0,
+  "decision": "escalate",
+  "reason_code": "DAMAGE_VERIFY",
+  "outcome": {
+    "decision": "escalate",
+    "amount_minor": null,
+    "reason_code": "DAMAGE_VERIFY",
+    "reason_text": "Damage claim needs verification before refund. Order shows item condition \"good\" and no delivery date (status shipped, delivered_at null). Under REF-106 a damaged item may be refunded on its own, so request evidence (photos, description) before deciding.",
+    "policy_article": "REF-106",
+    "confidence": 0.6
+  },
+  "failure": null,
+  "tool_calls": [
+    {
+      "tool": "get_order",
+      "args": "{\"order_id\":\"ord_C3_03\"}"
+    },
+    {
+      "tool": "get_order_items",
+      "args": "{\"order_id\":\"ord_C3_03\"}"
+    },
+    {
+      "tool": "get_customer",
+      "args": "{}"
+    },
+    {
+      "tool": "get_refund_policy",
+      "args": "{\"topic\":\"damaged\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"confidence\":0.6,\"decision\":\"refuse\",\"policy_article\":\"REF-106\",\"reason_code\":\"NOT_VERIFIED\",\"reason_text\":\"Refund request for damaged item cannot be approved as submitted. The order record shows the item condition as \\\"good\\\" and no delivery date recorded (status shipped, delivered_at null). Damage claims need verification before a refund. Under policy REF-106, a damaged item may be refunded on its own, so this can be reconsidered with evidence of the damage, such as photos and a description of the issue.\"}"
+    },
+    {
+      "tool": "final_result",
+      "args": "{\"confidence\":0.6,\"decision\":\"escalate\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGE_VERIFY\",\"reason_text\":\"Damage claim needs verification before refund. Order shows item condition \\\"good\\\" and no delivery date (status shipped, delivered_at null). Under REF-106 a damaged item may be refunded on its own, so request evidence (photos, description) before deciding.\"}"
+    }
+  ],
+  "step_count": 6,
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Order reference ord_C3_03\n\nCustomer message\nThis arrived damaged and I would like a refund please.",
+          "timestamp": "2026-10-11T16:04:48.414320Z",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:48.414528Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "args": "{\"order_id\":\"ord_C3_03\"}",
+          "tool_call_id": "toolu_01A8DPvsj2QskUVvESPMghYf",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_order_items",
+          "args": "{\"order_id\":\"ord_C3_03\"}",
+          "tool_call_id": "toolu_01CNA4FwK5JxSzLRxxP7uAzN",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "get_customer",
+          "args": "{}",
+          "tool_call_id": "toolu_01Medh6WtQvUa1cSDxH4K3YL",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1422,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 123,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1239
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:49.847682Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:49Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_order",
+          "content": {
+            "order_id": "ord_C3_03",
+            "status": "shipped",
+            "placed_at": "2026-10-07T12:00:00+00:00",
+            "delivered_at": null,
+            "total_minor": 4100,
+            "currency": "GBP",
+            "payment_method": "card",
+            "already_refunded_minor": 0,
+            "refundable_remainder_minor": 4100
+          },
+          "tool_call_id": "toolu_01A8DPvsj2QskUVvESPMghYf",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:49.856691Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_order_items",
+          "content": [
+            {
+              "item_id": "itm_C3_03_1",
+              "sku": "SKU-C3-1",
+              "name": "Desk Lamp",
+              "quantity": 1,
+              "unit_price_minor": 4100,
+              "condition": "good",
+              "refundable": true
+            }
+          ],
+          "tool_call_id": "toolu_01CNA4FwK5JxSzLRxxP7uAzN",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:49.858261Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "get_customer",
+          "content": {
+            "customer_id": "cus_001",
+            "created_at": "2026-10-11T16:02:36.555166+00:00",
+            "prior_refund_count": 30
+          },
+          "tool_call_id": "toolu_01Medh6WtQvUa1cSDxH4K3YL",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:49.857604Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:49.858768Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "args": "{\"topic\":\"damaged\"}",
+          "tool_call_id": "toolu_01B8XkoBZ2m7sJ3LNL55Sffy",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1753,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 44,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1130
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:51.055862Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:51Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_refund_policy",
+          "content": [
+            {
+              "article_id": "REF-106",
+              "topic": "damaged",
+              "body": "A damaged item may be refunded on its own.",
+              "version": 1
+            }
+          ],
+          "tool_call_id": "toolu_01B8XkoBZ2m7sJ3LNL55Sffy",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:51.060297Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:51.060801Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"confidence\":0.6,\"decision\":\"refuse\",\"policy_article\":\"REF-106\",\"reason_code\":\"NOT_VERIFIED\",\"reason_text\":\"Refund request for damaged item cannot be approved as submitted. The order record shows the item condition as \\\"good\\\" and no delivery date recorded (status shipped, delivered_at null). Damage claims need verification before a refund. Under policy REF-106, a damaged item may be refunded on its own, so this can be reconsidered with evidence of the damage, such as photos and a description of the issue.\"}",
+          "tool_call_id": "toolu_01Hvpzrjszkg9KUSJ5R94eqm",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1834,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 269,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1837
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:52.968097Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:53Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "content": [
+            {
+              "type": "string_too_long",
+              "loc": [
+                "reason_text"
+              ],
+              "msg": "String should have at most 400 characters",
+              "input": "Refund request for damaged item cannot be approved as submitted. The order record shows the item condition as \"good\" and no delivery date recorded (status shipped, delivered_at null). Damage claims need verification before a refund. Under policy REF-106, a damaged item may be refunded on its own, so this can be reconsidered with evidence of the damage, such as photos and a description of the issue."
+            }
+          ],
+          "tool_name": "final_result",
+          "tool_call_id": "toolu_01Hvpzrjszkg9KUSJ5R94eqm",
+          "timestamp": "2026-10-11T16:04:52.972937Z",
+          "part_kind": "retry-prompt"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:52.973579Z",
+      "instructions": "You are a customer support agent for an online shop.\n\nYou can look up orders and issue refunds. Use the tools available to you.\n\nDecide whether the customer should get a refund, and if so, issue it.\nReturn your decision in the required format.",
+      "kind": "request",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "args": "{\"confidence\":0.6,\"decision\":\"escalate\",\"policy_article\":\"REF-106\",\"reason_code\":\"DAMAGE_VERIFY\",\"reason_text\":\"Damage claim needs verification before refund. Order shows item condition \\\"good\\\" and no delivery date (status shipped, delivered_at null). Under REF-106 a damaged item may be refunded on its own, so request evidence (photos, description) before deciding.\"}",
+          "tool_call_id": "toolu_01JHfNsUYz7i9CT8a7Mpoqwe",
+          "tool_kind": null,
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2081,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 229,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "audio_seconds": 0.0,
+        "details": {
+          "latency_ms": 1638
+        },
+        "cost": null
+      },
+      "model_name": "claude-haiku-5-5",
+      "timestamp": "2026-10-11T16:04:54.683310Z",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.aicredits.in/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-10-11T16:04:54Z"
+      },
+      "provider_response_id": "chatcmpl-claude",
+      "finish_reason": "tool_call",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "workspace_ref": null,
+      "failed_attempts": null,
+      "state": "complete"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "final_result",
+          "content": "Final result processed.",
+          "tool_call_id": "toolu_01JHfNsUYz7i9CT8a7Mpoqwe",
+          "tool_kind": null,
+          "metadata": null,
+          "timestamp": "2026-10-11T16:04:54.688338Z",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-10-11T16:04:54.688511Z",
+      "instructions": null,
+      "kind": "request",
+      "run_id": "01a12bb5-aa9c-7098-b37d-7b524d815c37",
+      "conversation_id": "01a12bb5-aa9d-7292-8e53-86883432fe4d",
+      "metadata": null,
+      "state": "complete"
+    }
+  ],
+  "model_requests": 4,
+  "input_tokens": 7090,
+  "output_tokens": 665,
+  "cost_inr": 0.1061,
+  "seconds": 6.282,
+  "refunds_before_minor": 0,
+  "refunds_after_minor": 0,
+  "refund_written_minor": 0,
+  "replayed_from_cache": false,
+  "provenance": {
+    "prompt_version": "v1",
+    "prompt_sha": "3ca4619970d7ae2a",
+    "dataset_sha": "f0c0958041215594",
+    "git_sha": "e8f8fb0db8ef7a3d625d242dabe2e95b82d96877",
+    "git_dirty": true,
+    "model": "anthropic/claude-haiku-5.5"
+  }
+}
