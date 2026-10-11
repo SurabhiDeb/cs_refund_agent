@@ -253,3 +253,26 @@ Goal: it runs somewhere other than your laptop.
 5. Write the known limitations section. Accepted deliberately, not forgotten.
 
 Done when: someone else could operate it from the runbook.
+
+---
+
+## Possible extensions, not in the plan
+
+### LangGraph human in the loop
+
+Over-cap refunds currently escalate and the run ends. An alternative is to
+**pause** the run and wait for a supervisor, then resume from that exact
+step once approved. That needs checkpointing, which is what LangGraph's
+`interrupt` exists for, and Pydantic AI does not do.
+
+Would be a product change first, not a framework swap:
+
+- SPEC change: over-cap refunds pause for approval rather than escalate
+- Rebuild the decision flow as a LangGraph graph
+- Postgres checkpointer so a paused run survives a process restart
+- `interrupt()` at the approval node, resume with the supervisor's decision
+- Proof: pause a run, kill the process, restart, resume, exactly one refund
+- Compare against the Pydantic AI path and record which you would ship
+
+Rejected for now because escalation already satisfies the spec, and swapping
+frameworks to learn one teaches less than using it where it earns its place.

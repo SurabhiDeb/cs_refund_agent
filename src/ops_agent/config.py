@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     llm_api_key: str
     llm_model: str
 
+    # From the gateway's /models endpoint. Pinned, not
+    # fetched, so a run's recorded cost is reproducible. Re-check these when
+    # you change model.
+    llm_input_inr_per_million: float = 10.2
+    llm_output_inr_per_million: float = 50.8
+
     # A refund at or below this may be issued by the agent.
     # Above it, escalates.
     refund_cap_minor_units: int = 5000

@@ -53,10 +53,10 @@ actually true, not when the code merely exists.
 - [x] 3.7 Tests prove safety with no LLM in the loop
 
 ### Beat 4, the agent v1
-- [ ] 4.1 Pydantic AI agent, model pinned via LiteLLM
-- [ ] 4.2 prompts/v1.md, deliberately crude
-- [ ] 4.3 Max step limit, overrun escalates
-- [ ] 4.4 Full trajectory capture including the database diff
+- [x] 4.1 Pydantic AI agent, model pinned via LiteLLM
+- [x] 4.2 prompts/v1.md, deliberately crude
+- [x] 4.3 Max step limit, overrun escalates
+- [x] 4.4 Full trajectory capture including the database diff
 - [ ] 4.5 Cache keyed on the whole message array plus tool schemas
 - [ ] 4.6 All fixtures run, one run record with full provenance
 
