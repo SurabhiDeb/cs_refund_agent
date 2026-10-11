@@ -41,6 +41,7 @@ python_version = "3.13"
 strict = true
 warn_unreachable = true
 exclude = ["migrations/"]
+plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

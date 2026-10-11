@@ -8,8 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 1, the spec.** Beat 0.3, docker-compose
-pinned to Python 3.13.
+**Beat 4, the agent v1.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -41,17 +40,17 @@ actually true, not when the code merely exists.
 - [x] 2.1 SQLAlchemy models for all six tables
 - [x] 2.2 Alembic initial migration
 - [x] 2.3 Constraints that make bad states impossible
-- [ ] 2.4 60 to 80 seed orders, weighted to hard cases
-- [ ] 2.5 Annotated goal state per fixture, written before any agent exists
+- [x] 2.4 60 to 80 seed orders, weighted to hard cases
+- [x] 2.5 Annotated goal state per fixture, written before any agent exists
 
 ### Beat 3, the tool layer
-- [ ] 3.1 Typed tools with Pydantic argument models
-- [ ] 3.2 Authorisation inside every tool, identity from the key context
-- [ ] 3.3 issue_refund idempotent, no op on replay
-- [ ] 3.4 Cap enforced in code, not in the prompt
-- [ ] 3.5 Kill switch disables all write tools
-- [ ] 3.6 audit_log row on every write attempt, allowed or refused
-- [ ] 3.7 Tests prove safety with no LLM in the loop
+- [x] 3.1 Typed tools with Pydantic argument models
+- [x] 3.2 Authorisation inside every tool, identity from the key context
+- [x] 3.3 issue_refund idempotent, no op on replay
+- [x] 3.4 Cap enforced in code, not in the prompt
+- [x] 3.5 Kill switch disables all write tools
+- [x] 3.6 audit_log row on every write attempt, allowed or refused
+- [x] 3.7 Tests prove safety with no LLM in the loop
 
 ### Beat 4, the agent v1
 - [ ] 4.1 Pydantic AI agent, model pinned via LiteLLM

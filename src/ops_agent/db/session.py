@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import contextmanager
 
 from dotenv import load_dotenv
@@ -12,12 +12,12 @@ from sqlalchemy.orm import Session, sessionmaker
 
 load_dotenv()
 
-engine = create_engine(os.environ["DATABASE_URL"], future=True)
+engine = create_engine(os.environ["DATABASE_URL"])
 SessionFactory = sessionmaker(bind=engine, expire_on_commit=False)
 
 
 @contextmanager
-def session_scope() -> Iterator[Session]:
+def session_scope() -> Generator[Session]:
     """One transaction. Commits on success, rolls back on any exception."""
     session = SessionFactory()
     try:

@@ -167,3 +167,10 @@ Accepted deliberately, not forgotten.
   constraint cannot do. Beat 3 enforces it with a locked read of the order
   and its refunds inside the same transaction as the insert. Until that
   exists, E4 is unprotected.
+  - **No tickets table.** `escalate_to_human` returns a derived ticket id and
+  records the escalation in `audit_log`. There is nowhere for a human to
+  actually pick the case up. Fine while nothing is live, a gap before Beat 9.
+- **The audit row is written in its own transaction.** That keeps a refused
+  attempt on record, but it means a crash between the audit write and the
+  refund write can leave an "allowed" audit row with no refund beside it.
+  Beat 8 replaces this with Temporal.
