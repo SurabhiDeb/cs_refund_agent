@@ -93,7 +93,7 @@ This is the most important beat in the project.
 
 Goal: a deliberately crude agent that fails in ways worth studying.
 
-1. Pydantic AI agent, tools registered, model pinned via LiteLLM.
+1. Pydantic AI agent, tools registered, model pinned via AICredits gateway. LiteLLM arrives at Beat 7.
 2. `prompts/v1.md`, intentionally thin. No worked examples, minimal policy.
 3. Max step limit. A loop that hits it escalates.
 4. Capture the full trajectory per run. Every message, tool name, arguments,

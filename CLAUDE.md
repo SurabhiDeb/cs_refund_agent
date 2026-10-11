@@ -31,6 +31,9 @@ Do not start a beat before the one before it is ticked off in PROGRESS.md.
 10. Every write tool is idempotent. A retry must never double-refund.
 11. Grade by final database state, not by what the agent said it did.
 12. The caller's identity comes from the API key, never from the request body.
+13. Credits are a real cost. Build and test with a fake model. Measure cost
+    on three cases before running all 70. Cache every response to disk, so a
+    re-run is free. Never re-run a full evaluation to fix a reporting bug.
 
 ## Grading model
 

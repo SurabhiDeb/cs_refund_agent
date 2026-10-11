@@ -15,6 +15,9 @@ class Settings(BaseSettings):
 
     database_url: str
     redis_url: str = "redis://localhost:6380/0"
+    llm_base_url: str
+    llm_api_key: str
+    llm_model: str
 
     # A refund at or below this may be issued by the agent.
     # Above it, escalates.
