@@ -17,7 +17,9 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from pydantic_ai import capture_run_messages
 from pydantic_ai.exceptions import UnexpectedModelBehavior, UsageLimitExceeded
+from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -74,7 +76,7 @@ def _cost_inr(input_tokens: int, output_tokens: int) -> float:
     )
 
 
-def _tool_calls(messages: list[Any]) -> list[dict[str, Any]]:
+def _tool_calls(messages: list[ModelMessage]) -> list[dict[str, Any]]:
     """Every tool the model asked for, in order, with its arguments."""
     calls: list[dict[str, Any]] = []
     for message in messages:
@@ -83,6 +85,26 @@ def _tool_calls(messages: list[Any]) -> list[dict[str, Any]]:
             if name and hasattr(part, "args"):
                 calls.append({"tool": name, "args": part.args})
     return calls
+
+
+def _usage_from(messages: list[ModelMessage]) -> tuple[int, int, int]:
+    """Tokens and request count, read from the messages themselves.
+
+    Taken from the messages rather than from the result, because a failed
+    run has no result but has still cost money. Reading only the result is
+    how a real spend gets reported as zero.
+    """
+    input_tokens = 0
+    output_tokens = 0
+    requests = 0
+    for message in messages:
+        usage = getattr(message, "usage", None)
+        if usage is None:
+            continue
+        requests += 1
+        input_tokens += int(getattr(usage, "input_tokens", 0) or 0)
+        output_tokens += int(getattr(usage, "output_tokens", 0) or 0)
+    return input_tokens, output_tokens, requests
 
 
 @dataclass(frozen=True)
@@ -141,26 +163,27 @@ def run_case(
 
     outcome: Outcome | None = None
     failure: str | None = None
-    messages_json = "[]"
-    input_tokens = 0
-    output_tokens = 0
 
-    try:
-        result = agent.run_sync(goal["request"], deps=deps, usage_limits=USAGE_LIMITS)
-        outcome = result.output
-        messages_json = result.all_messages_json().decode()
-        usage = result.usage
-        input_tokens = usage.input_tokens
-        output_tokens = usage.output_tokens
-        calls = _tool_calls(result.all_messages())
-    except UsageLimitExceeded:
-        # X7. A loop is not an answer, so the run escalates.
-        failure = "X7"
-        calls = []
-    except UnexpectedModelBehavior as error:
-        # X6. The model's own output could not be understood. Fail safe.
-        failure = f"X6: {error}"
-        calls = []
+    # capture_run_messages keeps the conversation even when the run raises.
+    # Without it, a failure records nothing at all, including its cost.
+    with capture_run_messages() as messages:
+        try:
+            result = agent.run_sync(
+                goal["request"], deps=deps, usage_limits=USAGE_LIMITS
+            )
+            outcome = result.output
+        except UsageLimitExceeded:
+            # X7. A loop is not an answer, so the run escalates.
+            failure = "X7"
+        except UnexpectedModelBehavior as error:
+            # X6. The model's own output could not be understood. Fail safe.
+            failure = f"X6: {error}"
+
+    elapsed = round(time.monotonic() - started, 3)
+    refunded_after = _refunded(session, order_id)
+
+    input_tokens, output_tokens, requests = _usage_from(messages)
+    calls = _tool_calls(messages)
 
     elapsed = round(time.monotonic() - started, 3)
     refunded_after = _refunded(session, order_id)
@@ -183,7 +206,8 @@ def run_case(
         "failure": failure,
         "tool_calls": calls,
         "step_count": len(calls),
-        "messages": json.loads(messages_json),
+        "messages": json.loads(ModelMessagesTypeAdapter.dump_json(messages)),
+        "model_requests": requests,
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
         "cost_inr": _cost_inr(input_tokens, output_tokens),
