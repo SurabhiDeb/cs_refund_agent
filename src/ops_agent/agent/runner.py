@@ -13,7 +13,7 @@ import hashlib
 import json
 import subprocess
 import time
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +22,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent, load_prompt
+from ops_agent.agent.cache import load, run_key, save
 from ops_agent.config import settings
 from ops_agent.db.models import Refund
 from ops_agent.domain.contract import Decision, Outcome
@@ -113,8 +114,23 @@ def run_case(
     prompt_version: str,
     session: Session,
     write_enabled: bool,
+    provenance: Provenance,
+    use_cache: bool = True,
 ) -> dict[str, Any]:
     """One case, start to finish, with the whole trajectory recorded."""
+    key = run_key(
+        prompt_sha=provenance.prompt_sha,
+        dataset_sha=provenance.dataset_sha,
+        model=provenance.model,
+        request=goal["request"],
+        order_id=goal["order_id"],
+        write_enabled=write_enabled,
+    )
+    if use_cache:
+        cached = load(key)
+        if cached is not None:
+            return cached
+
     agent = build_agent(prompt_version)
     tool_ctx = ToolContext(customer_id=goal["customer_id"], write_enabled=write_enabled)
     deps = Deps(tool_ctx=tool_ctx, session=session)
@@ -153,7 +169,7 @@ def run_case(
     decision = outcome.decision if outcome else Decision.ESCALATE
     reason_code = outcome.reason_code if outcome else (failure or "X8")
 
-    return {
+    record: dict[str, Any] = {
         "case": goal["case"],
         "order_id": order_id,
         "request": goal["request"],
@@ -176,4 +192,8 @@ def run_case(
         "refunds_before_minor": refunded_before,
         "refunds_after_minor": refunded_after,
         "refund_written_minor": refunded_after - refunded_before,
+        "replayed_from_cache": False,
+        "provenance": asdict(provenance),
     }
+    save(key, record)
+    return record

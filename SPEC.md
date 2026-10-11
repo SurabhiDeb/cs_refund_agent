@@ -174,3 +174,8 @@ Accepted deliberately, not forgotten.
   attempt on record, but it means a crash between the audit write and the
   refund write can leave an "allowed" audit row with no refund beside it.
   Beat 8 replaces this with Temporal.
+- **A replayed run reports stale database numbers.** The cache returns the
+  record from the original run, including `refunds_before_minor` and
+  `refunds_after_minor`. Those are not re-verified against the current
+  database. Correct for reporting, wrong if you assume the database still
+  looks that way.
