@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 4, the agent v1.**
+**Beat 5, error analysis.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -58,7 +58,7 @@ actually true, not when the code merely exists.
 - [x] 4.3 Max step limit, overrun escalates
 - [x] 4.4 Full trajectory capture including the database diff
 - [x] 4.5 Cache keyed on the whole message array plus tool schemas
-- [ ] 4.6 All fixtures run, one run record with full provenance
+- [x] 4.6 All fixtures run, one run record with full provenance
 
 ### Beat 5, error analysis
 - [ ] 5.1 Every trajectory read by hand
