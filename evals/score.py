@@ -11,6 +11,7 @@ Wilson 95 percent interval. Nothing here is reported as a bare aggregate.
 
 from __future__ import annotations
 
+import argparse
 import contextlib
 import io
 import json
@@ -131,7 +132,18 @@ def rate_line(label: str, successes: int, total: int) -> str:
 
 
 def main() -> None:
-    record_path = sorted(RUNS.glob("*-v1.json"))[-1]
+    parser = argparse.ArgumentParser(description="Score a run record.")
+    parser.add_argument(
+        "--run",
+        required=True,
+        help="run record filename in evals/runs, pinned on purpose, never the newest",
+    )
+    args = parser.parse_args()
+
+    record_path = RUNS / args.run
+    record = json.loads(record_path.read_text())
+    goals = json.loads(GOALS.read_text())
+
     record = json.loads(record_path.read_text())
     goals = json.loads(GOALS.read_text())
     pairs = list(zip(record["cases"], goals, strict=True))
@@ -204,7 +216,8 @@ def main() -> None:
     print(f"  money underpaid {underpay} minor units")
 
     stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%SZ")
-    out = RUNS / f"{stamp}-v1-score.json"
+    version = record["provenance"]["prompt_version"]
+    out = RUNS / f"{stamp}-{version}-score.json"
     out.write_text(
         json.dumps(
             {

@@ -27,6 +27,7 @@ from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent, load_prompt
 from ops_agent.agent.cache import load, run_key, save
 from ops_agent.config import settings
 from ops_agent.db.models import Refund
+from ops_agent.db.seed import NOW
 from ops_agent.domain.contract import Decision, Outcome
 from ops_agent.tools.context import ToolContext
 
@@ -157,7 +158,11 @@ def run_case(
     tool_ctx = ToolContext(customer_id=goal["customer_id"], write_enabled=write_enabled)
     deps = Deps(tool_ctx=tool_ctx, session=session)
     order_id = goal["order_id"]
-    user_turn = f"Order reference {order_id}\n\nCustomer message\n{goal['request']}"
+    user_turn = (
+        f"Today is {NOW.date().isoformat()}.\n"
+        f"Order reference {order_id}\n\n"
+        f"Customer message\n{goal['request']}"
+    )
 
     refunded_before = _refunded(session, order_id)
     started = time.monotonic()

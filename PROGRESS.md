@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 7, v2 and the gate.**
+**Beat 8, durable money.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -76,10 +76,10 @@ actually true, not when the code merely exists.
 - [x] 6.7 Targets set in SPEC.md from the baseline
 
 ### Beat 7, v2 and the gate
-- [ ] 7.1 prompts/v2.md, one failure mode, one variable
-- [ ] 7.2 Case level flip list reported
-- [ ] 7.3 gate.py pinned to the shipping configuration
-- [ ] 7.4 Gate in CI, proved to block a broken run
+- [x] 7.1 prompts/v2.md, one failure mode, one variable
+- [x] 7.2 Case level flip list reported
+- [x] 7.3 gate.py pinned to the shipping configuration
+- [x] 7.4 Gate in CI, proved to block a broken run
 
 ### Beat 8, durable money
 - [ ] 8.1 Temporal workflow wrapping issue_refund
@@ -141,6 +141,11 @@ Eval harness built. Every case replays against a throwaway Postgres and is
 graded on the money in the table. Baseline is 44 of 70, 62.9 percent, CI
 51.1 to 73.2. Zero safety failures. Targets written into SPEC.md.
 ---
+### Session 4, Beat 7
+R5 and R8 enforced in code, prompts/v2.md written, all 70 re-run. State
+match 47 to 59 of 70, 15 fixed against 3 broken, McNemar p = 0.0075.
+gate.py pinned to the v2 score and proved to block.
+---
 
 ## Known limitations
 
@@ -183,6 +188,21 @@ Accepted deliberately, not forgotten.
   run, so a gain cannot be attributed to a single change. The per archetype
   breakdown gives partial attribution, since the modes live in different
   archetypes.
+
+- **The eval tells the agent a pinned date.** `runner.py` puts the seed's
+  `NOW`, 2026-10-10, into the user turn so the 30 day window is testable and
+  reproducible. A live service would use the real clock, so the agent has
+  never been tested against a date it was not handed.
+
+- **v2 changed more than one variable.** Budget, not design. The prompt, the
+  date in the user turn, and the R5 and R8 code guards all landed in the
+  same run, so no single change can be credited. The archetype breakdown
+  gives partial attribution.
+
+- **The eligibility list made the loop worse.** v1 cycled one policy topic
+  when it got stuck, v2 cycles two, because the prompt gave it a second
+  thing to check. M1 is now the dominant mode at 29 of 70 and is the v3
+  candidate.
 
 
 ## Open questions

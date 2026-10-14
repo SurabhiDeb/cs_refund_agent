@@ -53,6 +53,9 @@ jobs:
       - name: Pytest
         run: uv run pytest
 
+      - name: Gate
+        run: uv run python -m evals.gate
+
   secrets:
     runs-on: ubuntu-latest
     steps:
