@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 5, error analysis.**
+**Beat 6, the eval harness.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
