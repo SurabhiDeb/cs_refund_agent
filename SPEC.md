@@ -203,3 +203,8 @@ Baseline is prompt v1, 70 cases, record 20261011-161141Z-v1.json.
 
 A v2 run that lowers the task success point estimate below the v1 lower
 bound of 51.1% is a regression, whatever else it improves.
+
+Baseline, prompt v1, record 20261011-161141Z-v1.json.
+- 44 of 70 at the code of commit <sha of the Beat 6 commit>.
+- 47 of 70 after R5 was enforced in issue_refund, same record replayed.
+The second number is the one v2 must beat.

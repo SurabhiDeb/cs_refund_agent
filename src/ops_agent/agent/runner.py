@@ -184,8 +184,15 @@ def run_case(
     input_tokens, output_tokens, requests = _usage_from(messages)
     calls = _tool_calls(messages)
 
-    elapsed = round(time.monotonic() - started, 3)
-    refunded_after = _refunded(session, order_id)
+    # R8. A refund decision that no write backs is a promise the agent did
+    # not keep. Fail safe, the same way an unparseable response does.
+    if (
+        outcome is not None
+        and outcome.decision is Decision.REFUND
+        and refunded_after == refunded_before
+    ):
+        failure = "X8"
+        outcome = None
 
     # When the run blew up, the decision is escalate, never silence.
     decision = outcome.decision if outcome else Decision.ESCALATE

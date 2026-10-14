@@ -123,6 +123,11 @@ def issue_refund(
             "replayed": True,
         }
 
+    # R5. One refund per conversation, enforced here rather than in the
+    # prompt. A second key for the same ask is a new payment, not a retry.
+    if ctx.refunds_issued:
+        raise refuse("R5", "A refund has already been issued in this conversation.")
+
     # The cap. In code, so it holds even if the prompt is ignored or attacked.
     if args.amount_minor > settings.refund_cap_minor_units:
         raise refuse(
@@ -158,6 +163,7 @@ def issue_refund(
     )
     session.add(refund)
     session.flush()
+    ctx.refunds_issued.append(refund.id)
 
     _audit(
         customer_id=ctx.customer_id,

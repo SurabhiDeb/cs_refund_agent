@@ -197,10 +197,10 @@ def test_remainder_can_be_refunded_exactly(db: Session, owner: ToolContext) -> N
     assert refunded_total(db, "ord_C7_01") == 3500
 
 
-def test_two_partial_refunds_cannot_together_exceed_the_total(
+def test_a_second_refund_in_one_conversation_is_refused(
     db: Session, owner: ToolContext
 ) -> None:
-    """Separate keys, so idempotency does not save us. E4 has to."""
+    """R5. One write per run, enforced in code, not in the prompt."""
     issue_refund(
         owner,
         IssueRefundArgs(
@@ -222,8 +222,40 @@ def test_two_partial_refunds_cannot_together_exceed_the_total(
             ),
             db,
         )
+    assert caught.value.code == "R5"
+
+
+def test_two_partial_refunds_cannot_together_exceed_the_total(db: Session) -> None:
+    """E4, across two conversations, where R5 cannot help.
+
+    A fresh ToolContext each time, because that is what a second support
+    conversation looks like. Separate keys, so idempotency does not save us.
+    """
+    first = ToolContext(customer_id="cus_001", write_enabled=True)
+    second = ToolContext(customer_id="cus_001", write_enabled=True)
+
+    issue_refund(
+        first,
+        IssueRefundArgs(
+            order_id="ord_C1_01",
+            amount_minor=2000,
+            reason="first",
+            idempotency_key="first-partial-refund",
+        ),
+        db,
+    )
+    with pytest.raises(ToolRefusal) as caught:
+        issue_refund(
+            second,
+            IssueRefundArgs(
+                order_id="ord_C1_01",
+                amount_minor=2000,
+                reason="second",
+                idempotency_key="second-partial-refund",
+            ),
+            db,
+        )
     assert caught.value.code == "E4"
-    assert refunded_total(db, "ord_C1_01") == 2000
 
 
 # Idempotency

@@ -178,6 +178,12 @@ Accepted deliberately, not forgotten.
   should move it into `seed.py` and add a C17 archetype with no order id,
   expected escalate X5, since the v2 run pays for a reseed anyway.
 
+- **v2 changes more than one variable.** Budget, not design. M3 and M7 are
+  both addressed in prompts/v2.md and the structural fixes land in the same
+  run, so a gain cannot be attributed to a single change. The per archetype
+  breakdown gives partial attribution, since the modes live in different
+  archetypes.
+
 
 ## Open questions
 

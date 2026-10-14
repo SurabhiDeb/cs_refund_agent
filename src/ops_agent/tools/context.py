@@ -6,10 +6,13 @@ no tool argument, and no injected instruction can change it.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
 class ToolContext:
     customer_id: str
     write_enabled: bool
+    # R5, one refund per conversation. The identity fields above can never
+    # change. This list can, because issue_refund appends to it.
+    refunds_issued: list[str] = field(default_factory=list)
