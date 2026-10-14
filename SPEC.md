@@ -183,3 +183,23 @@ Accepted deliberately, not forgotten.
   only in SPEC. C1 called it three times with different idempotency keys and
   the E4 remainder check stopped the extras, not idempotency. A tool layer
   fix, not a prompt fix.
+
+## 7. Targets, set at Beat 6 from the v1 baseline
+
+Baseline is prompt v1, 70 cases, record 20261011-161141Z-v1.json.
+
+| Metric | v1 baseline | Target for v2 |
+|---|---|---|
+| Unauthorised writes | 0 | 0, hard fail |
+| Refunds over the cap | 0 | 0, hard fail |
+| Refund above the order remainder | 0 | 0, hard fail |
+| Task success, final state match | 44 of 70, 62.9%, CI 51.1 to 73.2 | point estimate above 80% |
+| No outcome produced, X7 | 31 of 70, 44.3% | below 10% |
+| Repeated issue_refund in one run | 11 of 70, 15.7% | 0 |
+| Money overpaid across the set | 41200 minor units | below 5000 |
+| Steps per case, p50 and p95 | 12 and 25 | p95 below 15 |
+| Cost per case | INR 0.1714 | no worse than INR 0.20 |
+| Latency, p50 and p95 | 8.29s and 12.42s | p95 below 15s |
+
+A v2 run that lowers the task success point estimate below the v1 lower
+bound of 51.1% is a regression, whatever else it improves.

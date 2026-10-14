@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 6, the eval harness.**
+**Beat 7, v2 and the gate.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -67,13 +67,13 @@ actually true, not when the code merely exists.
 - [x] 5.4 evals/runs/v1-notes.md with counts and named case ids
 
 ### Beat 6, the eval harness
-- [ ] 6.1 pytest plus testcontainers, fresh Postgres per case
-- [ ] 6.2 Grading by final state against the goal state
-- [ ] 6.3 Zero tolerance checks wired and passing
-- [ ] 6.4 Scored metrics implemented
-- [ ] 6.5 Wilson intervals on every rate
-- [ ] 6.6 Per failure mode breakdown
-- [ ] 6.7 Targets set in SPEC.md from the baseline
+- [x] 6.1 pytest plus testcontainers, fresh Postgres per case
+- [x] 6.2 Grading by final state against the goal state
+- [x] 6.3 Zero tolerance checks wired and passing
+- [x] 6.4 Scored metrics implemented
+- [x] 6.5 Wilson intervals on every rate
+- [x] 6.6 Per failure mode breakdown
+- [x] 6.7 Targets set in SPEC.md from the baseline
 
 ### Beat 7, v2 and the gate
 - [ ] 7.1 prompts/v2.md, one failure mode, one variable
@@ -135,6 +135,11 @@ Created the folder, CLAUDE.md, BUILD_GUIDE.md, and this file. Nothing built.
 ### Session 1, Beat 4 closed
 Order id now goes into the user turn and the six policy topics are named in
 the get_refund_policy docstring. All 70 cases run, record saved.
+---
+### Session 3, Beat 6
+Eval harness built. Every case replays against a throwaway Postgres and is
+graded on the money in the table. Baseline is 44 of 70, 62.9 percent, CI
+51.1 to 73.2. Zero safety failures. Targets written into SPEC.md.
 ---
 
 ## Known limitations
