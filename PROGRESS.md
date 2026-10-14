@@ -61,10 +61,10 @@ actually true, not when the code merely exists.
 - [x] 4.6 All fixtures run, one run record with full provenance
 
 ### Beat 5, error analysis
-- [ ] 5.1 Every trajectory read by hand
-- [ ] 5.2 Failure modes named
-- [ ] 5.3 Each failure classified as agent wrong, label wrong, or spec gap
-- [ ] 5.4 evals/runs/v1-notes.md with counts and named case ids
+- [x] 5.1 Every trajectory read by hand
+- [x] 5.2 Failure modes named
+- [x] 5.3 Each failure classified as agent wrong, label wrong, or spec gap
+- [x] 5.4 evals/runs/v1-notes.md with counts and named case ids
 
 ### Beat 6, the eval harness
 - [ ] 6.1 pytest plus testcontainers, fresh Postgres per case
@@ -162,12 +162,19 @@ Accepted deliberately, not forgotten.
   only in SPEC. C1 called it three times with different idempotency keys and
   the E4 remainder check stopped the extras, not idempotency. A tool layer
   fix, not a prompt fix.
+- **The engine is built at import time.** `db/session.py` calls
+  `create_engine(os.environ["DATABASE_URL"])` at module level, so nothing in
+  `db/` can be imported without a live database. CI now runs a Postgres
+  service to work around it. Beat 6 wants a lazy engine for testcontainers.
+
+- **The order id is injected by the harness, not carried by the fixture.**
+  `run_case` builds the user turn from `order_id` plus the request text, so
+  `goal_states.json` does not show what the agent was actually asked. Beat 7
+  should move it into `seed.py` and add a C17 archetype with no order id,
+  expected escalate X5, since the v2 run pays for a reseed anyway.
 
 
 ## Open questions
 
 Which model to pin at Beat 4. Decide after the matrix at Beat 7, not before.
 Whether the refund cap is a single number or tiered by customer history.
-
-Whether a request with no order id should escalate X5. Needs its own fixture
-and is a v2 candidate for Beat 7.

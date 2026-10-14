@@ -1,4 +1,4 @@
-"""Database tables. The shape of the world OpsAgent acts on.
+"""Database tables. The DB structure the OpsAgent acts on.
 
 Ids are readable strings with a prefix, so a trace or a log line tells you
 what you are looking at without a lookup.
