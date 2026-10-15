@@ -55,6 +55,7 @@ class Customer(Base):
     )
     # The hash of the API key, never the key itself.
     api_key_hash: Mapped[str] = mapped_column(String(64), unique=True)
+    scope: Mapped[str] = mapped_column(String(16), server_default="read")
 
 
 class Order(Base):

@@ -52,7 +52,7 @@ def _refused(error: ToolRefusal) -> dict[str, Any]:
     return {"refused": True, "code": error.code, "message": error.message}
 
 
-def build_agent(prompt_version: str) -> Agent[Deps, Outcome]:
+def build_agent(prompt_version: str, *, may_write: bool = True) -> Agent[Deps, Outcome]:
     model = OpenAIChatModel(
         settings.llm_model,
         provider=OpenAIProvider(
@@ -110,28 +110,30 @@ def build_agent(prompt_version: str) -> Agent[Deps, Outcome]:
         except ToolRefusal as error:
             return _refused(error)
 
-    @agent.tool
-    def issue_refund(
-        ctx: RunContext[Deps],
-        order_id: str,
-        amount_minor: int,
-        reason: str,
-        idempotency_key: str,
-    ) -> dict[str, Any]:
-        """Issue a refund. Amount is in minor units, so 2500 means 25.00."""
-        try:
-            return writes.issue_refund(
-                ctx.deps.tool_ctx,
-                writes.IssueRefundArgs(
-                    order_id=order_id,
-                    amount_minor=amount_minor,
-                    reason=reason,
-                    idempotency_key=idempotency_key,
-                ),
-                ctx.deps.session,
-            )
-        except ToolRefusal as error:
-            return _refused(error)
+    if may_write:
+
+        @agent.tool
+        def issue_refund(
+            ctx: RunContext[Deps],
+            order_id: str,
+            amount_minor: int,
+            reason: str,
+            idempotency_key: str,
+        ) -> dict[str, Any]:
+            """Issue a refund. Amount is in minor units, so 2500 means 25.00."""
+            try:
+                return writes.issue_refund(
+                    ctx.deps.tool_ctx,
+                    writes.IssueRefundArgs(
+                        order_id=order_id,
+                        amount_minor=amount_minor,
+                        reason=reason,
+                        idempotency_key=idempotency_key,
+                    ),
+                    ctx.deps.session,
+                )
+            except ToolRefusal as error:
+                return _refused(error)
 
     @agent.tool
     def escalate_to_human(

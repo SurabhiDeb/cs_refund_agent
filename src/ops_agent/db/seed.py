@@ -40,7 +40,7 @@ NOW = datetime(2026, 10, 10, 12, 0, tzinfo=UTC)
 
 OWNER = "cus_001"
 OTHER = "cus_002"
-DEV_KEYS = {OWNER: "dev-key-owner", OTHER: "dev-key-other"}
+DEV_KEYS = {OWNER: ("dev-key-owner", "write"), OTHER: ("dev-key-other", "read")}
 
 GOAL_PATH = Path(__file__).resolve().parents[3] / "evals" / "goal_states.json"
 
@@ -479,7 +479,10 @@ def seed() -> None:
         s.execute(delete(Customer))
 
         s.add_all(
-            [Customer(id=cid, api_key_hash=_hash(key)) for cid, key in DEV_KEYS.items()]
+            [
+                Customer(id=cid, api_key_hash=_hash(key), scope=scope)
+                for cid, (key, scope) in DEV_KEYS.items()
+            ]
         )
         s.add_all(
             [Policy(id=pid, topic=topic, body=body) for pid, topic, body in POLICIES]
