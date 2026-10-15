@@ -146,36 +146,27 @@ R5 and R8 enforced in code, prompts/v2.md written, all 70 re-run. State
 match 47 to 59 of 70, 15 fixed against 3 broken, McNemar p = 0.0075.
 gate.py pinned to the v2 score and proved to block.
 ---
+### Session 5, Beat 8
+Temporal workflow wrapping issue_refund, key derived from the request.
+Crash test scripted in scripts/crash_test.sh and wired into CI as its own
+durability job. Proved it fails: with a random key the crash leaves 2 rows
+and CI goes red. Refund amount set to 1000 on a 3200 order so the E4
+remainder check cannot mask a broken key.
+---
 
 ## Known limitations
 
 Accepted deliberately, not forgotten.
 
-- **E4 is not a database constraint.** "Never refund more than the
-  remainder" needs to sum the `refunds` rows for an order, which a CHECK
-  constraint cannot do. Beat 3 enforces it with a locked read of the order
-  and its refunds inside the same transaction as the insert. Until that
-  exists, E4 is unprotected.
-  - **No tickets table.** `escalate_to_human` returns a derived ticket id and
+- **No tickets table.** `escalate_to_human` returns a derived ticket id and
   records the escalation in `audit_log`. There is nowhere for a human to
   actually pick the case up. Fine while nothing is live, a gap before Beat 9.
-- **The audit row is written in its own transaction.** That keeps a refused
-  attempt on record, but it means a crash between the audit write and the
-  refund write can leave an "allowed" audit row with no refund beside it.
-  Beat 8 replaces this with Temporal.
+- **"The audit row is written in its own transaction”** says “Beat 8 replaces this with Temporal.” Check whether it actually did — _audit() still opens its own session inside the activity, so the gap may still be open. Say what’s true now.
 - **A replayed run reports stale database numbers.** The cache returns the
   record from the original run, including `refunds_before_minor` and
   `refunds_after_minor`. Those are not re-verified against the current
   database. Correct for reporting, wrong if you assume the database still
   looks that way.
-- **R5 is not enforced in code.** "One issue_refund per conversation" lives
-  only in SPEC. C1 called it three times with different idempotency keys and
-  the E4 remainder check stopped the extras, not idempotency. A tool layer
-  fix, not a prompt fix.
-- **The engine is built at import time.** `db/session.py` calls
-  `create_engine(os.environ["DATABASE_URL"])` at module level, so nothing in
-  `db/` can be imported without a live database. CI now runs a Postgres
-  service to work around it. Beat 6 wants a lazy engine for testcontainers.
 
 - **The order id is injected by the harness, not carried by the fixture.**
   `run_case` builds the user turn from `order_id` plus the request text, so
@@ -194,15 +185,12 @@ Accepted deliberately, not forgotten.
   reproducible. A live service would use the real clock, so the agent has
   never been tested against a date it was not handed.
 
-- **v2 changed more than one variable.** Budget, not design. The prompt, the
-  date in the user turn, and the R5 and R8 code guards all landed in the
-  same run, so no single change can be credited. The archetype breakdown
-  gives partial attribution.
-
 - **The eligibility list made the loop worse.** v1 cycled one policy topic
   when it got stuck, v2 cycles two, because the prompt gave it a second
   thing to check. M1 is now the dominant mode at 29 of 70 and is the v3
   candidate.
+
+- **the crash test’s fixed sleep values are tuned to your laptop.** A slow CI runner could kill the worker before the row is written. Your after_crash != 1 check turns that into a visible failure rather than a silent pass, but it will flake eventually.
 
 
 ## Open questions

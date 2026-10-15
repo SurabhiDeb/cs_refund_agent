@@ -11,7 +11,6 @@ Owner: Surabhi. Started October 2026.
 1. `PROGRESS.md` tells you where we are and what the next step is. Start there.
 2. `docs/BUILD_GUIDE.md` is the full plan, Beat 0 to Beat 13.
 3. `docs/SPEC.md` is the product definition. Everything downstream inherits it.
-4. `docs/DECISIONS.md` records every choice and why. Append, never rewrite.
 
 Do not start a beat before the one before it is ticked off in PROGRESS.md.
 
@@ -95,7 +94,7 @@ Gates
 
 ## Layout
 
-    docs/            SPEC.md, BUILD_GUIDE.md, DECISIONS.md, GLOSSARY.md
+    docs/            SPEC.md, BUILD_GUIDE.md
     src/opsagent/
       agent/         the loop, prompts/ versioned
       tools/         read and write tools, split deliberately
