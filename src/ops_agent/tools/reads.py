@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from ops_agent.db.models import Customer, Order, OrderItem, Policy, Refund
+from ops_agent.db.models import Customer, Order, OrderItem, Policy, Refund, RefundStatus
 from ops_agent.tools.context import ToolContext
 from ops_agent.tools.errors import ToolRefusal
 
@@ -41,7 +41,8 @@ def get_order(ctx: ToolContext, args: OrderArgs, session: Session) -> dict[str, 
     order = _owned_order(ctx, args.order_id, session)
     refunded = session.scalar(
         select(func.coalesce(func.sum(Refund.amount_minor), 0)).where(
-            Refund.order_id == order.id
+            Refund.order_id == order.id,
+            Refund.status == RefundStatus.SUCCEEDED,
         )
     )
     return {

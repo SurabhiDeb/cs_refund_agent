@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 8, durable money.**
+**Beat 8, durable money, finished till 8.4, starting 8.5.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -82,10 +82,10 @@ actually true, not when the code merely exists.
 - [x] 7.4 Gate in CI, proved to block a broken run
 
 ### Beat 8, durable money
-- [ ] 8.1 Temporal workflow wrapping issue_refund
-- [ ] 8.2 Idempotency key derived, not random
-- [ ] 8.3 Crash test, worker killed mid refund, exactly one refund row
-- [ ] 8.4 Compensation path for a rejected refund
+- [x] 8.1 Temporal workflow wrapping issue_refund
+- [x] 8.2 Idempotency key derived, not random
+- [x] 8.3 Crash test, worker killed mid refund, exactly one refund row
+- [x] 8.4 Compensation path for a rejected refund
 - [ ] 8.5 Crash test in CI
 
 ### Beat 9, the service

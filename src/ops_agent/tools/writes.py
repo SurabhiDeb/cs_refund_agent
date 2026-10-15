@@ -141,7 +141,8 @@ def issue_refund(
     already = (
         session.scalar(
             select(func.coalesce(func.sum(Refund.amount_minor), 0)).where(
-                Refund.order_id == order.id
+                Refund.order_id == order.id,
+                Refund.status == RefundStatus.SUCCEEDED,
             )
         )
         or 0

@@ -23,5 +23,28 @@ services:
       interval: 5s
       retries: 10
 
+  temporal:
+    image: temporalio/auto-setup:1.29.7
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: opsagent
+      POSTGRES_PWD: localdev
+      POSTGRES_SEEDS: postgres
+    ports:
+      - "7233:7233"
+
+  temporal-ui:
+    image: temporalio/ui:2.56.0
+    depends_on:
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+    ports:
+      - "8233:8080"
+
 volumes:
   pgdata:
