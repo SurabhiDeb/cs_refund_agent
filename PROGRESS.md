@@ -91,11 +91,11 @@ actually true, not when the code merely exists.
 ### Beat 9, the service
 - [x] 9.1 FastAPI on Granian, three endpoints
 - [x] 9.2 API key auth, scope decides which tools are registered
-- [ ] 9.3 Redis rate limiting per key
+- [x] 9.3 Redis rate limiting per key
 - [ ] 9.4 422 on bad input, 503 from health when degraded
 - [ ] 9.5 PII redaction in logs and traces
 - [ ] 9.6 Docker multi stage, non root, no secrets in image
-- [ ] 9.7 Test proving an unauthenticated call cannot reach a tool
+- [x] 9.7 Test proving an unauthenticated call cannot reach a tool
 - [ ] 9.8 Trivy image scan in CI
 
 ### Beat 10, observability

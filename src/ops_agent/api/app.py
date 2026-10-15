@@ -15,6 +15,7 @@ from pydantic import BaseModel, Field
 
 from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent
 from ops_agent.api.auth import resolve_key
+from ops_agent.api.limits import enforce
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
 from ops_agent.tools.context import ToolContext
@@ -39,6 +40,11 @@ def chat(
     request: ChatRequest, x_api_key: str | None = Header(default=None)
 ) -> dict[str, Any]:
     caller = resolve_key(x_api_key)
+    enforce(
+        x_api_key or "",
+        limit=settings.rate_limit_requests,
+        window_seconds=settings.rate_limit_window_seconds,
+    )
 
     # Two independent switches. The scope is what this caller is allowed to
     # do, the kill switch is what anyone is allowed to do right now. Both

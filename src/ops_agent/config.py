@@ -35,6 +35,10 @@ class Settings(BaseSettings):
     write_tools_enabled: bool = False
     refund_window_days: int = 30
 
+    # Per key, per window. Low on purpose. Every call spends gateway credits.
+    rate_limit_requests: int = 10
+    rate_limit_window_seconds: int = 60
+
     # Fault injection for the Beat 8 crash test. Zero in every real run.
     refund_activity_delay_seconds: float = 0.0
 
