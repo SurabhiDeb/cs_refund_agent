@@ -35,3 +35,12 @@ def enforce(api_key: str, *, limit: int, window_seconds: int) -> None:
             status_code=429,
             detail=f"Rate limit reached, {limit} requests per {window_seconds}s.",
         )
+
+
+def redis_ok() -> bool:
+    """Used by /health. A dead Redis means no rate limiting, so the service
+    is degraded even though it could still answer."""
+    try:
+        return bool(_redis.ping())
+    except Exception:
+        return False

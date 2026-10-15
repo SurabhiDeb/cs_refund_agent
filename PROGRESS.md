@@ -92,7 +92,7 @@ actually true, not when the code merely exists.
 - [x] 9.1 FastAPI on Granian, three endpoints
 - [x] 9.2 API key auth, scope decides which tools are registered
 - [x] 9.3 Redis rate limiting per key
-- [ ] 9.4 422 on bad input, 503 from health when degraded
+- [x] 9.4 422 on bad input, 503 from health when degraded
 - [ ] 9.5 PII redaction in logs and traces
 - [ ] 9.6 Docker multi stage, non root, no secrets in image
 - [x] 9.7 Test proving an unauthenticated call cannot reach a tool
@@ -191,6 +191,28 @@ Accepted deliberately, not forgotten.
   candidate.
 
 - **the crash test’s fixed sleep values are tuned to your laptop.** A slow CI runner could kill the worker before the row is written. Your after_crash != 1 check turns that into a visible failure rather than a silent pass, but it will flake eventually.
+
+- **The health check tests fake the outage.** `test_health_is_503_when_*`
+  monkeypatches the probe to return False rather than stopping Postgres or
+  Redis. That tests the handling, not the detection. A probe that silently
+  returns True against a dead dependency would still pass.
+
+- **Run records live in memory.** `api/app.py` keeps them in a module level
+  `RUNS` dict, so a restart loses every run and two Granian workers disagree
+  about what exists. `/runs/{id}` is a demo until they have a table.
+
+- **The API tests read a private pydantic-ai attribute.**
+  `_function_toolset.tools` is how `test_read_scope_gets_no_refund_tool`
+  checks which tools were registered. An upgrade can rename it. It fails
+  loudly rather than passing silently, which is the acceptable direction.
+
+- **The rate limit is a fixed window.** Ten calls at 59 seconds and ten more
+  at 61 is twenty calls in two seconds, all allowed. One Redis round trip
+  bought that imprecision deliberately.
+
+- **`/chat` has never been run against the real model.** Every test uses a
+  401, a 422, a 429, or a dead gateway. The HTTP layer is proved, the
+  happy path is not. First real call is still unspent.
 
 
 ## Open questions

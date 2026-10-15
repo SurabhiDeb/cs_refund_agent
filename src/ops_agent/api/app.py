@@ -10,12 +10,13 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Response
 from pydantic import BaseModel, Field
+from sqlalchemy import text
 
 from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent
 from ops_agent.api.auth import resolve_key
-from ops_agent.api.limits import enforce
+from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
 from ops_agent.tools.context import ToolContext
@@ -30,9 +31,30 @@ class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
 
 
+def _postgres_ok() -> bool:
+    try:
+        with session_scope() as session:
+            session.execute(text("SELECT 1"))
+        return True
+    except Exception:
+        return False
+
+
 @app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok"}
+def health(response: Response) -> dict[str, Any]:
+    """Honest about its dependencies.
+
+    A health check that always says ok is worse than no health check, because
+    something upstream will keep routing traffic to a service that cannot
+    serve it. Each dependency is named, so the answer says what is wrong.
+    """
+    checks = {"postgres": _postgres_ok(), "redis": redis_ok()}
+
+    if not all(checks.values()):
+        response.status_code = 503
+        return {"status": "degraded", "checks": checks}
+
+    return {"status": "ok", "checks": checks}
 
 
 @app.post("/chat")
