@@ -94,9 +94,9 @@ actually true, not when the code merely exists.
 - [x] 9.3 Redis rate limiting per key
 - [x] 9.4 422 on bad input, 503 from health when degraded
 - [ ] 9.5 PII redaction in logs and traces
-- [ ] 9.6 Docker multi stage, non root, no secrets in image
+- [x] 9.6 Docker multi stage, non root, no secrets in image
 - [x] 9.7 Test proving an unauthenticated call cannot reach a tool
-- [ ] 9.8 Trivy image scan in CI
+- [x] 9.8 Trivy image scan in CI
 
 ### Beat 10, observability
 - [ ] 10.1 OTel spans on every agent step and tool call
@@ -222,6 +222,13 @@ Accepted deliberately, not forgotten.
   trajectory, including the user turn, and writes it to `evals/runs/`.
   Nothing redacts that path. Fine for seeded fixtures, a leak the moment a
   real conversation is recorded.
+
+- **The image secret scan reports, it does not gate.** Trivy's only hits are
+  a private-key marker in google-auth bytecode and an example JWT in pyjwt's
+  METADATA, both third party. It also would not have caught our own `.env`:
+  `LLM_API_KEY=...` matches none of its rules. So "no secrets in the image"
+  rests on `.dockerignore` and gitleaks, not on Trivy. Verified by building
+  an image with a planted `.env` and seeing Trivy stay silent.
 
 
 ## Open questions

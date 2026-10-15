@@ -137,10 +137,22 @@ jobs:
       - name: Build image
         run: docker build -t ops-agent:ci .
 
-      - name: Trivy scan
+      - name: Trivy vulnerabilities
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ops-agent:ci
+          scanners: vuln
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: "1"
+
+      - name: Trivy secrets, report only
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ops-agent:ci
+          scanners: secret
+          severity: HIGH,CRITICAL
+          # Reports, does not block. The only hits are test keys and example
+          # tokens inside third party package metadata. Secrets in our own
+          # code are gated by gitleaks, and .env is kept out by .dockerignore.
+          exit-code: "0"
