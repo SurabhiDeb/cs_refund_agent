@@ -214,6 +214,15 @@ Accepted deliberately, not forgotten.
   401, a 422, a 429, or a dead gateway. The HTTP layer is proved, the
   happy path is not. First real call is still unspent.
 
+- **9.5 is half done.** Logs are redacted by `obs/redact.py` and a filter on
+  the root logger. There are no traces yet, so the trace half lands with
+  Langfuse at 10.2. Tick 9.5 then, not before.
+
+- **Run records store raw customer text.** `runner.py` captures the full
+  trajectory, including the user turn, and writes it to `evals/runs/`.
+  Nothing redacts that path. Fine for seeded fixtures, a leak the moment a
+  real conversation is recorded.
+
 
 ## Open questions
 

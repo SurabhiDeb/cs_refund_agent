@@ -7,6 +7,7 @@ else's order.
 
 from __future__ import annotations
 
+import logging
 import uuid
 from typing import Any
 
@@ -19,9 +20,12 @@ from ops_agent.api.auth import resolve_key
 from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
+from ops_agent.obs.redact import install, redact
 from ops_agent.tools.context import ToolContext
 
 app = FastAPI(title="OpsAgent")
+install()
+log = logging.getLogger("ops_agent.api")
 
 # Not durable. Replaced when run records get a home in the database.
 RUNS: dict[str, dict[str, Any]] = {}
@@ -66,6 +70,12 @@ def chat(
         x_api_key or "",
         limit=settings.rate_limit_requests,
         window_seconds=settings.rate_limit_window_seconds,
+    )
+    log.info(
+        "chat customer=%s scope=%s message=%s",
+        caller.customer_id,
+        caller.scope,
+        redact(request.message),
     )
 
     # Two independent switches. The scope is what this caller is allowed to
