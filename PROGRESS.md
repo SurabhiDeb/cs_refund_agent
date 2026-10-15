@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 8, durable money, finished till 8.4, starting 8.5.**
+**Beat 9, the service.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -86,7 +86,7 @@ actually true, not when the code merely exists.
 - [x] 8.2 Idempotency key derived, not random
 - [x] 8.3 Crash test, worker killed mid refund, exactly one refund row
 - [x] 8.4 Compensation path for a rejected refund
-- [ ] 8.5 Crash test in CI
+- [x] 8.5 Crash test in CI
 
 ### Beat 9, the service
 - [ ] 9.1 FastAPI on Granian, three endpoints
