@@ -39,9 +39,16 @@ ENV PATH="/app/.venv/bin:${PATH}" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# Nothing at runtime installs anything, so pip and its bundled setuptools,
-# urllib3 and msgpack are attack surface with no purpose.
-RUN python -m pip uninstall -y pip setuptools 2>/dev/null || true
+# Nothing at runtime installs anything. pip ships vendored copies of
+# urllib3, msgpack and setuptools, and their CVEs become ours for no
+# benefit. Removing the dist-info too is what makes them actually gone,
+# since that is what a scanner reads.
+RUN rm -rf /usr/local/lib/python3.13/site-packages/pip \
+           /usr/local/lib/python3.13/site-packages/pip-*.dist-info \
+           /usr/local/lib/python3.13/site-packages/setuptools \
+           /usr/local/lib/python3.13/site-packages/setuptools-*.dist-info \
+           /usr/local/lib/python3.13/site-packages/pkg_resources \
+           /usr/local/bin/pip /usr/local/bin/pip3 /usr/local/bin/pip3.13
 
 # Everything from here runs unprivileged. Nothing below needs root, and if
 # something ever does, that is the bug.
