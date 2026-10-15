@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 9, the service.**
+**Beat 10, observability.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 

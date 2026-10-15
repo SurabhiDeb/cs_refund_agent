@@ -39,6 +39,10 @@ ENV PATH="/app/.venv/bin:${PATH}" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
+# Nothing at runtime installs anything, so pip and its bundled setuptools,
+# urllib3 and msgpack are attack surface with no purpose.
+RUN python -m pip uninstall -y pip setuptools 2>/dev/null || true
+
 # Everything from here runs unprivileged. Nothing below needs root, and if
 # something ever does, that is the bug.
 USER appuser
