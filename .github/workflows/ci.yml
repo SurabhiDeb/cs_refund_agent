@@ -56,6 +56,58 @@ jobs:
       - name: Gate
         run: uv run python -m evals.gate
 
+  durability:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: opsagent
+          POSTGRES_PASSWORD: localdev
+          POSTGRES_DB: opsagent
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql+psycopg://opsagent:localdev@localhost:5432/opsagent
+      LLM_BASE_URL: http://localhost
+      LLM_API_KEY: not-a-real-key
+      LLM_MODEL: anthropic/claude-haiku-5.5
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Install Temporal CLI
+        run: |
+          curl -sSf https://temporal.download/cli.sh | sh
+          echo "$HOME/.temporalio/bin" >> "$GITHUB_PATH"
+
+      - name: Start Temporal dev server
+        run: |
+          temporal server start-dev --headless &
+          for i in $(seq 1 30); do
+            temporal operator cluster health && break
+            sleep 1
+          done
+
+      - name: Migrate
+        run: uv run alembic upgrade head
+
+      - name: Crash test
+        run: ./scripts/crash_test.sh
+
   secrets:
     runs-on: ubuntu-latest
     steps:
