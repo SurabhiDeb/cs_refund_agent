@@ -9,10 +9,12 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import time
 import uuid
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 
@@ -22,6 +24,8 @@ from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
 from ops_agent.domain.contract import Decision
+from ops_agent.obs.metrics import COST, LATENCY, REFUND_VALUE, STEPS, cost_inr
+from ops_agent.obs.metrics import RUNS as RUNS_TOTAL
 from ops_agent.obs.redact import install, redact
 from ops_agent.obs.tracing import install_tracing, tracer
 from ops_agent.tools.context import ToolContext
@@ -71,10 +75,18 @@ def health(response: Response) -> dict[str, Any]:
     return {"status": "ok", "checks": checks}
 
 
+@app.get("/metrics")
+def metrics() -> Response:
+    """Prometheus scrapes this. Deliberately unauthenticated: the scraper
+    is inside the deployment, and these are counts, not customer data."""
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
 @app.post("/chat")
 def chat(
     request: ChatRequest, x_api_key: str | None = Header(default=None)
 ) -> dict[str, Any]:
+    started = time.perf_counter()
     caller = resolve_key(x_api_key)
     enforce(
         x_api_key or "",
@@ -126,6 +138,21 @@ def chat(
         span.set_attribute("ops.escalated", outcome.decision is Decision.ESCALATE)
         span.set_attribute("ops.reason_code", outcome.reason_code)
         span.set_attribute("ops.confidence", outcome.confidence)
+
+    usage = result.usage
+    input_tokens = int(getattr(usage, "input_tokens", 0) or 0)
+    output_tokens = int(getattr(usage, "output_tokens", 0) or 0)
+    steps = int(getattr(usage, "requests", 0) or 0)
+
+    RUNS_TOTAL.labels(decision=str(outcome.decision)).inc()
+    STEPS.observe(steps)
+    COST.inc(cost_inr(input_tokens, output_tokens))
+    LATENCY.observe(time.perf_counter() - started)
+
+    # Only money that actually moved. A refund decision the tool refused is
+    # not a refund, and counting it would make the alert lie.
+    if outcome.decision is Decision.REFUND and outcome.amount_minor:
+        REFUND_VALUE.inc(outcome.amount_minor)
 
     RUNS[run_id] = {
         "run_id": run_id,

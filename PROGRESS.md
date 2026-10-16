@@ -101,7 +101,7 @@ actually true, not when the code merely exists.
 ### Beat 10, observability
 - [x] 10.1 OTel spans on every agent step and tool call
 - [x] 10.2 Langfuse traces with structured tool calls, prompts versioned
-- [ ] 10.3 Prometheus metrics for refunds, escalations, steps, cost, latency
+- [x] 10.3 Prometheus metrics for refunds, escalations, steps, cost, latency
 - [ ] 10.4 Grafana dashboard plus the refund value per hour alert
 - [ ] 10.5 Sentry with PII scrubbing
 

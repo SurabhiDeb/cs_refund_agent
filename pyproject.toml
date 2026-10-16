@@ -12,6 +12,7 @@ dependencies = [
     "granian>=2.8.4",
     "opentelemetry-exporter-otlp-proto-http>=1.44.0",
     "opentelemetry-sdk>=1.44.0",
+    "prometheus-client>=0.26.0",
     "psycopg[binary]>=3.3.6",
     "pydantic-ai>=2.55.0",
     "pydantic-settings>=2.15.0",

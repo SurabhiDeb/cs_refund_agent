@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 
 from ops_agent.config import settings
 from ops_agent.domain.contract import Outcome
+from ops_agent.obs.metrics import TOOL_REFUSALS
 from ops_agent.tools import reads, writes
 from ops_agent.tools.context import ToolContext
 from ops_agent.tools.errors import ToolRefusal
@@ -49,6 +50,7 @@ class Deps:
 
 def _refused(error: ToolRefusal) -> dict[str, Any]:
     """A refusal is data the model should read, not a crash."""
+    TOOL_REFUSALS.labels(code=error.code).inc()
     return {"refused": True, "code": error.code, "message": error.message}
 
 

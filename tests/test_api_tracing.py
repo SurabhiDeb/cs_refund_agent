@@ -116,3 +116,25 @@ def test_the_span_carries_no_raw_customer_text(
     attrs = _chat_span(spans)
     assert "4111" not in str(attrs["ops.message"])
     assert "[CARD]" in str(attrs["ops.message"])
+
+
+def test_metrics_move_when_a_run_completes(
+    db: Session, spans: InMemorySpanExporter, fake_model: None
+) -> None:
+    """A counter nobody increments is a dashboard that always looks calm."""
+    from prometheus_client import REGISTRY
+
+    def total() -> float:
+        return sum(
+            sample.value
+            for metric in REGISTRY.collect()
+            if metric.name == "ops_agent_runs"
+            for sample in metric.samples
+            if sample.name == "ops_agent_runs_total"
+        )
+
+    before = total()
+    assert client.post("/chat", json=ASK, headers=HEADERS).status_code == 200
+    assert total() == before + 1
+
+    assert client.get("/metrics").status_code == 200
