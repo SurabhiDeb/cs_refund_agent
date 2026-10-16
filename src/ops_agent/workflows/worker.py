@@ -9,9 +9,11 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 from temporalio.client import Client
+from temporalio.contrib.opentelemetry import TracingInterceptor
 from temporalio.worker import Worker
 
 from ops_agent.config import settings
+from ops_agent.obs.tracing import install_tracing
 from ops_agent.workflows.refund import (
     TASK_QUEUE,
     RefundWorkflow,
@@ -22,7 +24,14 @@ from ops_agent.workflows.refund import (
 
 
 async def main() -> None:
-    client = await Client.connect(settings.temporal_address)
+    # The worker is its own process, so it needs its own exporter. Without
+    # this, activity spans are created and dropped.
+    install_tracing()
+
+    client = await Client.connect(
+        settings.temporal_address,
+        interceptors=[TracingInterceptor()],
+    )
     # The activity talks to Postgres with a blocking driver, so it runs in a
     # thread rather than on the event loop.
     with ThreadPoolExecutor(max_workers=4) as executor:

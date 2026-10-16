@@ -11,6 +11,7 @@ import hashlib
 import logging
 import time
 import uuid
+from collections.abc import MutableMapping
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Response
@@ -31,7 +32,23 @@ from ops_agent.obs.redact import install, redact
 from ops_agent.obs.tracing import install_tracing, tracer
 from ops_agent.tools.context import ToolContext
 
-app = FastAPI(title="OpsAgent")
+
+def _skip_telemetry(scope: MutableMapping[str, Any]) -> bool:
+    """Health and metrics are polled forever by machines. Tracing them
+    buries the handful of traces a person will actually read."""
+    return scope.get("path") in {"/metrics", "/health"}
+
+
+app = FastAPI(
+    title="OpsAgent",
+    telemetry={
+        "tracing": True,
+        # Our own "chat" span is the story. FastAPI's dependency and
+        # serialization spans are plumbing nobody debugs from Langfuse.
+        "operation_spans": False,
+        "exclude": _skip_telemetry,
+    },
+)
 install()
 install_tracing()
 install_sentry()

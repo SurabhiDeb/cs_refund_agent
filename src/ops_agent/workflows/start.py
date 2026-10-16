@@ -12,8 +12,10 @@ import asyncio
 import sys
 
 from temporalio.client import Client
+from temporalio.contrib.opentelemetry import TracingInterceptor
 
 from ops_agent.config import settings
+from ops_agent.obs.tracing import install_tracing
 from ops_agent.workflows.refund import (
     TASK_QUEUE,
     RefundRequest,
@@ -30,7 +32,11 @@ async def main() -> None:
         reason="Beat 8 durability test",
     )
 
-    client = await Client.connect(settings.temporal_address)
+    install_tracing()
+    client = await Client.connect(
+        settings.temporal_address,
+        interceptors=[TracingInterceptor()],
+    )
     result = await client.execute_workflow(
         RefundWorkflow.run,
         request,

@@ -20,6 +20,8 @@ from temporalio.exceptions import ActivityError, ApplicationError
 # Workflow files run in a sandbox that reimports modules. Anything with real
 # side effects, a database among them, has to be passed through untouched.
 with workflow.unsafe.imports_passed_through():
+    from opentelemetry import trace
+
     from ops_agent.config import settings
     from ops_agent.db.models import Refund, RefundStatus
     from ops_agent.db.session import session_scope
@@ -62,6 +64,13 @@ def derive_key(request: RefundRequest) -> str:
 def issue_refund_activity(request: RefundRequest) -> RefundResult:
     """The only place money moves. Written to be safe on a second run."""
     ctx = ToolContext(customer_id=request.customer_id, write_enabled=True)
+    # The interceptor already opened a span for this activity. Attributes go
+    # on it, so the refund is reconstructable from the trace rather than
+    # from the log line next to it.
+    span = trace.get_current_span()
+    span.set_attribute("ops.order_id", request.order_id)
+    span.set_attribute("ops.amount_minor", request.amount_minor)
+    span.set_attribute("ops.idempotency_key", derive_key(request))
     args = writes.IssueRefundArgs(
         order_id=request.order_id,
         amount_minor=request.amount_minor,
@@ -75,6 +84,7 @@ def issue_refund_activity(request: RefundRequest) -> RefundResult:
         # A refusal is a final answer, not a transient failure. Returning it
         # instead of raising stops Temporal retrying something that will be
         # refused every time.
+
         return RefundResult(refund_id=None, status="refused", refused_code=error.code)
 
     # Deliberate pause, off by default. It holds the activity open after the
@@ -82,7 +92,8 @@ def issue_refund_activity(request: RefundRequest) -> RefundResult:
     # the only window where a crash could cause a second payment.
     if settings.refund_activity_delay_seconds:
         time.sleep(settings.refund_activity_delay_seconds)
-
+    span.set_attribute("ops.refund_id", str(result["refund_id"]))
+    span.set_attribute("ops.replayed", bool(result.get("replayed", False)))
     return RefundResult(
         refund_id=str(result["refund_id"]), status=str(result["status"])
     )

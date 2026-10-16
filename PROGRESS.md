@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 10, observability.**
+**Beat 11, red team.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -103,7 +103,7 @@ actually true, not when the code merely exists.
 - [x] 10.2 Langfuse traces with structured tool calls, prompts versioned
 - [x] 10.3 Prometheus metrics for refunds, escalations, steps, cost, latency
 - [x] 10.4 Grafana dashboard plus the refund value per hour alert
-- [ ] 10.5 Sentry with PII scrubbing
+- [x] 10.5 Sentry with PII scrubbing
 
 ### Beat 11, red team
 - [ ] 11.1 promptfoo red team suite written
@@ -159,6 +159,17 @@ traces carry no customer text. Two bugs found while proving it: parallel
 tool calls shared one Session, and the audit row id was derived from its
 own content, so a repeated escalation collided and the audit write raised.
 Both fixed.
+---
+### Session 7, Beat 10
+Observability end to end. OTel spans to a self-hosted Langfuse, content
+excluded so no customer text leaves the process. Prompt version and sha on
+every trace, so a decision can be traced back to the exact text that
+produced it. Prometheus metrics for runs, refund value, steps, cost,
+latency and refusals, scraped into a Grafana dashboard with one alert on
+refund value per hour, proved to fire and then put back. Sentry wired with
+a before_send scrubber, proved on a real event. Temporal workflow and
+activities traced through Temporal's own interceptor, so a refund is
+reconstructable from the trace including its idempotency key.
 ---
 
 ## Known limitations
@@ -217,10 +228,6 @@ Accepted deliberately, not forgotten.
   at 61 is twenty calls in two seconds, all allowed. One Redis round trip
   bought that imprecision deliberately.
 
-- **`/chat` has never been run against the real model.** Every test uses a
-  401, a 422, a 429, or a dead gateway. The HTTP layer is proved, the
-  happy path is not. First real call is still unspent.
-
 - **9.5 is half done.** Logs are redacted by `obs/redact.py` and a filter on
   the root logger. There are no traces yet, so the trace half lands with
   Langfuse at 10.2. Tick 9.5 then, not before.
@@ -245,6 +252,37 @@ Accepted deliberately, not forgotten.
   70 case run has been lucky, not safe. (**This is unfixed.**)
 
 - the alert fires in Prometheus only — there’s no Alertmanager, so nothing actually pages anyone yet.
+
+- **A refund over HTTP is not durable.** `/chat` calls `writes.issue_refund`
+  directly, not the Temporal workflow. Everything Beat 8 built, retry on
+  crash and compensation, applies only to the workflow path. The two paths
+  need to become one before anything ships.
+
+- **Nothing pages anyone.** `RefundValuePerHourHigh` evaluates in Prometheus
+  and was proved to fire, but there is no Alertmanager, so firing means a
+  red row on a page nobody is watching at 3am.
+
+- **Metrics live in one process.** `prometheus-client` counts in memory, so
+  two Granian workers would each hold their own totals and Prometheus would
+  scrape whichever answered. Correct today because there is one worker.
+
+- **Refunds issued by the Temporal worker are not counted.** The Prometheus
+  counters are incremented in `/chat` only, so the money the workflow moves
+  is invisible to the dashboard and to the alert that watches it.
+
+- **Cost is read from the result, so a failed run records zero.** `/chat`
+  uses `result.usage`, which does not exist when a run raises.
+  `runner.py` solved this properly by reading the messages instead. A run
+  that loops and dies is the most expensive kind and currently costs
+  nothing on the dashboard.
+
+- **`cost_inr` exists twice.** Once in `obs/metrics.py` and once in
+  `agent/runner.py`. Two copies of a pricing calculation will disagree the
+  first time the rates change.
+
+- **Tracing depends on another project.** Langfuse runs in a separate
+  compose stack. If those containers are down, ops_agent still works but
+  records nothing. Fine for dev, wrong for Beat 13.
 
 
 ## Open questions
