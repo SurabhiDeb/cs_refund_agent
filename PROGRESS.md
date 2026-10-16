@@ -102,7 +102,7 @@ actually true, not when the code merely exists.
 - [x] 10.1 OTel spans on every agent step and tool call
 - [x] 10.2 Langfuse traces with structured tool calls, prompts versioned
 - [x] 10.3 Prometheus metrics for refunds, escalations, steps, cost, latency
-- [ ] 10.4 Grafana dashboard plus the refund value per hour alert
+- [x] 10.4 Grafana dashboard plus the refund value per hour alert
 - [ ] 10.5 Sentry with PII scrubbing
 
 ### Beat 11, red team
@@ -243,6 +243,8 @@ Accepted deliberately, not forgotten.
   not thread safe. The API path is guarded with
   `parallel_tool_call_execution_mode("sequential")`; `runner.py` is not. The
   70 case run has been lucky, not safe. (**This is unfixed.**)
+
+- the alert fires in Prometheus only — there’s no Alertmanager, so nothing actually pages anyone yet.
 
 
 ## Open questions

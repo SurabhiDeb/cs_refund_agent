@@ -1,0 +1,13 @@
+# Scrapes the service every 15 seconds. The agent runs on the host rather
+# than in this compose file, so the target is the host as Docker sees it.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: ops-agent
+    static_configs:
+      - targets: ["host.docker.internal:8000"]

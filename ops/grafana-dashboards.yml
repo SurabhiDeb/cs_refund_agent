@@ -1,0 +1,13 @@
+# Tells Grafana to load dashboards from a folder instead of a database.
+# A dashboard built by clicking exists on one laptop. This one is in git.
+apiVersion: 1
+
+providers:
+  - name: ops-agent
+    folder: ""
+    type: file
+    disableDeletion: false
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: false

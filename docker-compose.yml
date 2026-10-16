@@ -46,5 +46,31 @@ services:
     ports:
       - "8233:8080"
 
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./ops/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./ops/alerts.yml:/etc/prometheus/alerts.yml:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana:11.5.1
+    # 3000 is taken by Langfuse, so Grafana answers on 3001.
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: localdev
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    volumes:
+      - ./ops/grafana-datasource.yml:/etc/grafana/provisioning/datasources/prometheus.yml:ro
+      - grafanadata:/var/lib/grafana
+      - ./ops/grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/provider.yml:ro
+      - ./ops/grafana-dashboard.json:/etc/grafana/provisioning/dashboards/ops-agent.json:ro
+
 volumes:
   pgdata:
+  grafanadata:

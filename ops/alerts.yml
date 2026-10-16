@@ -1,0 +1,18 @@
+# The one alert that matters. Everything else on the dashboard is context.
+#
+# A broken agent does not announce itself as broken. It announces itself as
+# money leaving faster than usual, which is the only symptom worth waking
+# someone for.
+groups:
+  - name: money
+    rules:
+      - alert: RefundValuePerHourHigh
+        # Minor units. The per refund cap is 5000, so 50000 in an hour means
+        # at least ten refunds at the cap, or many smaller ones in a burst.
+        expr: increase(ops_agent_refund_value_minor_total[1h]) > 50000
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: "Refund value in the last hour is above the threshold"
+          description: "Check recent traces before touching the kill switch."
