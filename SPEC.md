@@ -183,6 +183,12 @@ Accepted deliberately, not forgotten.
   only in SPEC. C1 called it three times with different idempotency keys and
   the E4 remainder check stopped the extras, not idempotency. A tool layer
   fix, not a prompt fix.
+- **Prompt versions are not registered in Langfuse.** Prompts are immutable
+  files in git and that is the single source of truth, per rule 2.
+  Registering them in Langfuse as well would create a second copy that can
+  disagree with the first. Each trace carries `ops.prompt_version` and
+  `ops.prompt_sha` instead, which is enough to reconstruct which text
+  produced a decision.
 
 ## 7. Targets, set at Beat 6 from the v1 baseline
 

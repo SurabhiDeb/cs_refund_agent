@@ -7,6 +7,7 @@ else's order.
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import uuid
 from typing import Any
@@ -15,7 +16,7 @@ from fastapi import FastAPI, Header, HTTPException, Response
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 
-from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent
+from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent, load_prompt
 from ops_agent.api.auth import resolve_key
 from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
@@ -32,6 +33,12 @@ log = logging.getLogger("ops_agent.api")
 
 # Not durable. Replaced when run records get a home in the database.
 RUNS: dict[str, dict[str, Any]] = {}
+
+# The prompt that ships. Hashed once at import, so every trace can say
+# exactly which text produced it. Rule 2: a change is a new file, never
+# an edit, so this sha is stable for the life of the process.
+PROMPT_VERSION = "v2"
+PROMPT_SHA = hashlib.sha256(load_prompt(PROMPT_VERSION).encode()).hexdigest()[:16]
 
 
 class ChatRequest(BaseModel):
@@ -95,8 +102,10 @@ def chat(
         span.set_attribute("ops.may_write", may_write)
         # Redacted, because a trace is a place data goes to stay.
         span.set_attribute("ops.message", redact(request.message))
+        span.set_attribute("ops.prompt_version", PROMPT_VERSION)
+        span.set_attribute("ops.prompt_sha", PROMPT_SHA)
 
-        agent = build_agent("v2", may_write=may_write)
+        agent = build_agent(PROMPT_VERSION, may_write=may_write)
         tool_ctx = ToolContext(customer_id=caller.customer_id, write_enabled=may_write)
 
         # One Session, and SQLAlchemy Sessions are not thread safe. Parallel
