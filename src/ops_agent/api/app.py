@@ -20,11 +20,14 @@ from ops_agent.api.auth import resolve_key
 from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
+from ops_agent.domain.contract import Decision
 from ops_agent.obs.redact import install, redact
+from ops_agent.obs.tracing import install_tracing, tracer
 from ops_agent.tools.context import ToolContext
 
 app = FastAPI(title="OpsAgent")
 install()
+install_tracing()
 log = logging.getLogger("ops_agent.api")
 
 # Not durable. Replaced when run records get a home in the database.
@@ -83,22 +86,43 @@ def chat(
     # must say yes, and the kill switch always wins.
     may_write = caller.may_write and settings.write_tools_enabled
 
-    agent = build_agent("v2", may_write=may_write)
-    tool_ctx = ToolContext(customer_id=caller.customer_id, write_enabled=may_write)
-
-    with session_scope() as session:
-        result = agent.run_sync(
-            request.message,
-            deps=Deps(tool_ctx=tool_ctx, session=session),
-            usage_limits=USAGE_LIMITS,
-        )
-
     run_id = "run_" + uuid.uuid4().hex[:16]
+
+    with tracer().start_as_current_span("chat") as span:
+        span.set_attribute("ops.run_id", run_id)
+        span.set_attribute("ops.customer_id", caller.customer_id)
+        span.set_attribute("ops.scope", caller.scope)
+        span.set_attribute("ops.may_write", may_write)
+        # Redacted, because a trace is a place data goes to stay.
+        span.set_attribute("ops.message", redact(request.message))
+
+        agent = build_agent("v2", may_write=may_write)
+        tool_ctx = ToolContext(customer_id=caller.customer_id, write_enabled=may_write)
+
+        # One Session, and SQLAlchemy Sessions are not thread safe. Parallel
+        # tool calls would hand the same Session to several threads, which
+        # fails with IllegalStateChangeError rather than anything readable.
+        with (
+            agent.parallel_tool_call_execution_mode("sequential"),
+            session_scope() as session,
+        ):
+            result = agent.run_sync(
+                request.message,
+                deps=Deps(tool_ctx=tool_ctx, session=session),
+                usage_limits=USAGE_LIMITS,
+            )
+
+        outcome = result.output
+        span.set_attribute("ops.decision", str(outcome.decision))
+        span.set_attribute("ops.escalated", outcome.decision is Decision.ESCALATE)
+        span.set_attribute("ops.reason_code", outcome.reason_code)
+        span.set_attribute("ops.confidence", outcome.confidence)
+
     RUNS[run_id] = {
         "run_id": run_id,
         "customer_id": caller.customer_id,
         "scope": caller.scope,
-        "outcome": result.output.model_dump(),
+        "outcome": outcome.model_dump(),
     }
     return RUNS[run_id]
 

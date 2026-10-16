@@ -93,13 +93,13 @@ actually true, not when the code merely exists.
 - [x] 9.2 API key auth, scope decides which tools are registered
 - [x] 9.3 Redis rate limiting per key
 - [x] 9.4 422 on bad input, 503 from health when degraded
-- [ ] 9.5 PII redaction in logs and traces
+- [x] 9.5 PII redaction in logs and traces
 - [x] 9.6 Docker multi stage, non root, no secrets in image
 - [x] 9.7 Test proving an unauthenticated call cannot reach a tool
 - [x] 9.8 Trivy image scan in CI
 
 ### Beat 10, observability
-- [ ] 10.1 OTel spans on every agent step and tool call
+- [x] 10.1 OTel spans on every agent step and tool call
 - [ ] 10.2 Langfuse traces with structured tool calls, prompts versioned
 - [ ] 10.3 Prometheus metrics for refunds, escalations, steps, cost, latency
 - [ ] 10.4 Grafana dashboard plus the refund value per hour alert
@@ -152,6 +152,13 @@ Crash test scripted in scripts/crash_test.sh and wired into CI as its own
 durability job. Proved it fails: with a random key the crash leaves 2 rows
 and CI goes red. Refund amount set to 1000 on a 3200 order so the E4
 remainder check cannot mask a broken key.
+---
+### Session 6, Beat 10 start
+OTel spans wired to a self-hosted Langfuse over OTLP, content excluded so
+traces carry no customer text. Two bugs found while proving it: parallel
+tool calls shared one Session, and the audit row id was derived from its
+own content, so a repeated escalation collided and the audit write raised.
+Both fixed.
 ---
 
 ## Known limitations
@@ -229,6 +236,13 @@ Accepted deliberately, not forgotten.
   `LLM_API_KEY=...` matches none of its rules. So "no secrets in the image"
   rests on `.dockerignore` and gitleaks, not on Trivy. Verified by building
   an image with a planted `.env` and seeing Trivy stay silent.
+
+- **The eval harness shares one Session across parallel tool calls.**
+  `runner.py` passes a single SQLAlchemy Session into the agent, and
+  pydantic-ai runs tool calls in parallel threads by default. Sessions are
+  not thread safe. The API path is guarded with
+  `parallel_tool_call_execution_mode("sequential")`; `runner.py` is not. The
+  70 case run has been lucky, not safe. (**This is unfixed.**)
 
 
 ## Open questions

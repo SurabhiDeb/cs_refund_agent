@@ -39,6 +39,11 @@ class Settings(BaseSettings):
     rate_limit_requests: int = 10
     rate_limit_window_seconds: int = 60
 
+    # Tracing. Empty host means tracing is off, which is how CI runs.
+    langfuse_host: str = ""
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+
     # Fault injection for the Beat 8 crash test. Zero in every real run.
     refund_activity_delay_seconds: float = 0.0
 

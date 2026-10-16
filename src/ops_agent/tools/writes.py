@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import uuid
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -52,10 +53,12 @@ def _audit(
     leave no trace, which is exactly the record you most want to keep.
     """
     payload = json.dumps(arguments, sort_keys=True)
-    row_id = (
-        "aud_"
-        + hashlib.sha256(f"{tool}{payload}{allowed}{reason}".encode()).hexdigest()[:24]
-    )
+    # Unique per attempt, not per content. An audit row records that
+    # something happened, and the same thing can happen twice. Hashing the
+    # content made the second occurrence collide and raise, losing the
+    # record at exactly the moment it mattered.
+    row_id = "aud_" + uuid.uuid4().hex[:24]
+
     with session_scope() as audit_session:
         audit_session.add(
             AuditLog(
