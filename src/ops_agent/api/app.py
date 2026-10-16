@@ -24,6 +24,7 @@ from ops_agent.api.limits import enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
 from ops_agent.domain.contract import Decision
+from ops_agent.obs.errors import install_sentry
 from ops_agent.obs.metrics import COST, LATENCY, REFUND_VALUE, STEPS, cost_inr
 from ops_agent.obs.metrics import RUNS as RUNS_TOTAL
 from ops_agent.obs.redact import install, redact
@@ -33,6 +34,7 @@ from ops_agent.tools.context import ToolContext
 app = FastAPI(title="OpsAgent")
 install()
 install_tracing()
+install_sentry()
 log = logging.getLogger("ops_agent.api")
 
 # Not durable. Replaced when run records get a home in the database.

@@ -17,6 +17,7 @@ dependencies = [
     "pydantic-ai>=2.55.0",
     "pydantic-settings>=2.15.0",
     "redis>=8.1.0",
+    "sentry-sdk>=2.72.0",
     "sqlalchemy>=2.1.4",
     "temporalio>=1.34.0",
 ]

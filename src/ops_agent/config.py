@@ -44,6 +44,10 @@ class Settings(BaseSettings):
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""
 
+    # Empty DSN means Sentry is off, which is how CI and tests run.
+    sentry_dsn: str = ""
+    sentry_environment: str = "local"
+
     # Fault injection for the Beat 8 crash test. Zero in every real run.
     refund_activity_delay_seconds: float = 0.0
 
