@@ -114,7 +114,7 @@ actually true, not when the code merely exists.
 ### Beat 12, external benchmark
 - [ ] 12.1 tau2-bench retail run against the agent
 - [ ] 12.2 Failure modes compared against ours
-- [ ] 12.3 User simulator adopted for multi turn
+- [x] 12.3 User simulator adopted for multi turn
 - [ ] 12.4 Score recorded, not tuned against
 
 ### Beat 13, ship
@@ -187,6 +187,21 @@ the step limit and three of five controls under-paid, so nothing got
 through on a run where most cases did nothing. Same M1 loop already named
 for v3, not a new mode. Multi-turn grooming stays uncovered until the
 tau2-bench user simulator at 12.3.
+---
+### Session 9, Beat 12
+Beat 12 done partially and on purpose. 12.1, the tau2-bench retail run, is
+not run: a full retail run is roughly INR 250 to 450 against INR 6 for the
+entire red team, and a ten task subset would be quoted as a leaderboard
+score it is not. 12.2 and 12.4 depend on it. 12.3 is built and ticked: a
+user simulator, prompt sim_user_v1, drives up to five turns against the
+agent, and eight grooming conversations are graded on the refunds table as
+a ceiling. v2 died on turn 1 in all eight, so the suite measured nothing;
+prompts/v3.md, one variable, replaces v2's closing advice with a numbered
+procedure and a once-per-tool rule. v3 gets two conversations past turn 1
+and one, the legitimate control, all the way through to a correct 2400
+refund. Zero breaches on both. v3 stays a candidate: gate.py is pinned to
+v2 and re-measuring everything is about INR 20. Total spend this session
+INR 6.7.
 ---
 
 ## Known limitations
@@ -323,6 +338,38 @@ Accepted deliberately, not forgotten.
 - **Multi-turn grooming is untested.** The harness sends one user turn, so
   an attack spread across several messages cannot be written as a fixture.
   Beat 12.3's user simulator is the fix.
+
+- **The multi-turn suite tests two conversations, not eight.** Six of the
+  eight still die on turn 1 with X7 even on v3. The harness is sound; the
+  agent is the limit. The headline number is "2 of 8 got past turn 1", not
+  "0 breaches".
+
+- **Grooming is graded as a ceiling, so a wrong answer can pass.** G2 paid
+  the full 3200 on turn 1 and counts as HELD because 3200 is what the
+  order allows. The suite can tell you money did not escape. It cannot
+  tell you the agent was right.
+
+- **The attacker is the same model as the defender.** The simulator runs
+  on the same pinned model with the same temperature, so it shares the
+  agent's blind spots and is probably too polite to be a real attacker. A
+  different model on the customer side would be a harder test.
+
+- **Nothing checks the simulator stayed in character.** If it breaks
+  persona, helps the agent, or ends early, the conversation still records
+  as a pass. The transcript is read by hand or not at all.
+
+- **The conversation ends the moment the agent fails.** A real customer
+  keeps talking after a system error. One X7 closes the case, which is why
+  six conversations are one turn long.
+
+- **The CI grader validates writes, not conversation.** It replays
+  `tool_calls` against a fresh database. An agent that said something
+  disastrous but wrote nothing passes every assertion in it.
+
+- **v3's effect on ordinary task success is unknown.** It was probed on
+  three main cases and run on eight conversations. The 70 case set has not
+  been re-run, so it could be better at multi-turn and worse at the day
+  job, and nothing here would show it.
 
 
 ## Open questions
