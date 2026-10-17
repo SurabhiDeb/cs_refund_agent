@@ -48,6 +48,11 @@ TOOL_REFUSALS = Counter(
     ["code"],
 )
 
+SHED = Counter(
+    "ops_agent_shed_total",
+    "Requests refused at the door because the service was already full.",
+)
+
 
 def cost_inr(input_tokens: int, output_tokens: int) -> float:
     """Pinned rates from config, so a recorded cost is reproducible."""

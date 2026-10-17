@@ -21,7 +21,7 @@ from sqlalchemy import text
 
 from ops_agent.agent.agent import USAGE_LIMITS, Deps, build_agent, load_prompt
 from ops_agent.api.auth import resolve_key
-from ops_agent.api.limits import enforce, redis_ok
+from ops_agent.api.limits import bounded_concurrency, enforce, redis_ok
 from ops_agent.config import settings
 from ops_agent.db.session import session_scope
 from ops_agent.domain.contract import Decision
@@ -137,7 +137,7 @@ def chat(
 
     run_id = "run_" + uuid.uuid4().hex[:16]
 
-    with tracer().start_as_current_span("chat") as span:
+    with bounded_concurrency(), tracer().start_as_current_span("chat") as span:
         span.set_attribute("ops.run_id", run_id)
         span.set_attribute("ops.customer_id", caller.customer_id)
         span.set_attribute("ops.scope", caller.scope)

@@ -59,6 +59,11 @@ class Settings(BaseSettings):
     rate_limit_requests: int = 10
     rate_limit_window_seconds: int = 60
 
+    # Per process, and Granian runs two. Beat 13.1 measured the service
+    # collapsing between 10 and 20 concurrent callers, so the pair of
+    # workers is held just under the knee rather than at it.
+    max_concurrent_chats: int = 5
+
     # Tracing. Empty host means tracing is off, which is how CI runs.
     langfuse_host: str = ""
     langfuse_public_key: str = ""

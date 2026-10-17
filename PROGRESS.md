@@ -381,6 +381,18 @@ Accepted deliberately, not forgotten.
   serve them. Bounded concurrency with a fast 503 is the fix, and it is
   not built.
 
+- **The service sheds load at five concurrent callers per worker.** Over
+  that, a 503 with Retry-After. Measured in ops/k6/load-notes.md: at forty
+  callers this turned a 58 second hang into a one second refusal and
+  raised throughput five fold. The number is a guess tuned to a laptop,
+  not a deployment, and it is per process, so the real ceiling is five
+  times however many workers run.
+
+- **Per-process metrics are now proved wrong, not just suspected.** A load
+  test shed roughly 777 requests and `/metrics` reported 278, because the
+  scrape reached one of two workers. Every counter in this service has
+  that flaw, including the refund value the alert watches.
+
 
 ## Open questions
 

@@ -11,11 +11,15 @@ trip and it cannot disagree with itself.
 from __future__ import annotations
 
 import hashlib
+import threading
+from collections.abc import Generator
+from contextlib import contextmanager
 
 from fastapi import HTTPException
 from redis import Redis
 
 from ops_agent.config import settings
+from ops_agent.obs.metrics import SHED
 
 _redis = Redis.from_url(settings.redis_url)
 
@@ -44,3 +48,33 @@ def redis_ok() -> bool:
         return bool(_redis.ping())
     except Exception:
         return False
+
+
+# One semaphore per process. Granian runs sync endpoints in a thread pool,
+# so what this bounds is threads, and the ceiling is per worker.
+_inflight = threading.BoundedSemaphore(settings.max_concurrent_chats)
+
+
+@contextmanager
+def bounded_concurrency() -> Generator[None]:
+    """Shed load rather than queue it.
+
+    Beat 13.1 measured throughput falling as load rose past ten concurrent
+    callers: the service got slower and did less work at the same time.
+    Queueing is what turns overload into a five second pool timeout and a
+    500. A caller we cannot serve is better told so immediately.
+
+    This is separate from the rate limit, which is per key. Ten keys at ten
+    requests each walk straight past that and arrive here.
+    """
+    if not _inflight.acquire(blocking=False):
+        SHED.inc()
+        raise HTTPException(
+            status_code=503,
+            detail="The service is at capacity. Retry shortly.",
+            headers={"Retry-After": "1"},
+        )
+    try:
+        yield
+    finally:
+        _inflight.release()

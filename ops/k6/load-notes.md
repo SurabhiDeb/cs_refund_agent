@@ -56,3 +56,28 @@ A real model in the path, which dominates latency and changes the shape
 entirely. The write path, since writes were off. Anything other than this
 laptop. These are relative numbers for finding a knee, not a capacity
 plan for a deployment that does not exist yet.
+
+## Load shedding, added after the first measurement
+
+A bounded semaphore per worker, five slots, checked before any work. Over
+capacity the caller gets a 503 and a Retry-After immediately instead of
+queueing into a pool timeout.
+
+Forty virtual users, the level where the service previously collapsed:
+
+| | before shedding | after |
+|---|---|---|
+| throughput | 6.7/s | 32.9/s |
+| slowest request | 58.4s | 9.4s |
+| timeouts | 39 | 0 |
+| refused at the door | 0 | ~777 |
+| p95, served requests | 1.77s | 3.53s |
+
+Three quarters of the offered load is refused, which is the honest answer
+from a service sized for ten concurrent callers when forty arrive. It now
+does five times the useful work while refusing them, and nothing hangs.
+
+The shed counter read 278 at the scrape, not 777. Two workers, one
+counter each, and `/metrics` is answered by whichever worker picks up the
+request. That is the known per-process metrics limitation, demonstrated
+rather than argued.
