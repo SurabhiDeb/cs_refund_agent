@@ -121,7 +121,7 @@ actually true, not when the code merely exists.
 - [x] 13.1 k6 load test, breaking concurrency found
 - [ ] 13.2 Deployed, Temporal worker as its own service
 - [ ] 13.3 Write path canaried behind the kill switch
-- [ ] 13.4 docs/RUNBOOK.md written
+- [x] 13.4 docs/RUNBOOK.md written
 - [ ] 13.5 Known limitations written down
 
 ---
