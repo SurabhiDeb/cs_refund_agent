@@ -16,13 +16,24 @@ from dotenv import load_dotenv
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from ops_agent.config import settings
+
 load_dotenv()
 
 
 @lru_cache(maxsize=1)
 def get_engine() -> Engine:
     """One engine per process, built the first time something asks for it."""
-    return create_engine(os.environ["DATABASE_URL"])
+    return create_engine(
+        os.environ["DATABASE_URL"],
+        pool_size=settings.db_pool_size,
+        max_overflow=settings.db_max_overflow,
+        pool_timeout=settings.db_pool_timeout_seconds,
+        # A connection idle through a Postgres restart is dead and still
+        # looks fine. One round trip on checkout is cheaper than the 500
+        # it prevents.
+        pool_pre_ping=True,
+    )
 
 
 @lru_cache(maxsize=1)

@@ -96,9 +96,13 @@ def health(response: Response) -> dict[str, Any]:
 
     if not all(checks.values()):
         response.status_code = 503
-        return {"status": "degraded", "checks": checks}
+        return {
+            "status": "degraded",
+            "checks": checks,
+            "fake_model": settings.fake_model,
+        }
 
-    return {"status": "ok", "checks": checks}
+    return {"status": "ok", "checks": checks, "fake_model": settings.fake_model}
 
 
 @app.get("/metrics")

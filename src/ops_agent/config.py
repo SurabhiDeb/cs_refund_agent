@@ -20,6 +20,16 @@ class Settings(BaseSettings):
     # in this process. Off in tests and evals, on wherever a crash between
     # deciding and writing would cost real money.
     durable_refunds: bool = False
+
+    # The pool is the service's real concurrency limit, not the CPU. Beat
+    # 13.1 found SQLAlchemy's defaults, 5 connections plus 10 overflow,
+    # queueing at 20 concurrent callers on two workers.
+    db_pool_size: int = 10
+    db_max_overflow: int = 20
+    # Fail fast. A caller that cannot get a connection in five seconds
+    # should be told so, not held for thirty.
+    db_pool_timeout_seconds: int = 5
+
     llm_base_url: str
     llm_api_key: str
     llm_model: str
@@ -37,6 +47,12 @@ class Settings(BaseSettings):
     # The kill switch. False means every write tool refuses,
     # and the agent degrades to read plus escalate.
     write_tools_enabled: bool = False
+
+    # Serve a canned model instead of calling the gateway. For load tests
+    # only: k6 at any useful concurrency against the real model costs more
+    # than every evaluation in this project put together.
+    fake_model: bool = False
+
     refund_window_days: int = 30
 
     # Per key, per window. Low on purpose. Every call spends gateway credits.

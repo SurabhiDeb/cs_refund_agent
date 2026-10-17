@@ -118,7 +118,7 @@ actually true, not when the code merely exists.
 - [ ] 12.4 Score recorded, not tuned against
 
 ### Beat 13, ship
-- [ ] 13.1 k6 load test, breaking concurrency found
+- [x] 13.1 k6 load test, breaking concurrency found
 - [ ] 13.2 Deployed, Temporal worker as its own service
 - [ ] 13.3 Write path canaried behind the kill switch
 - [ ] 13.4 docs/RUNBOOK.md written
@@ -374,6 +374,12 @@ Accepted deliberately, not forgotten.
   three main cases and run on eight conversations. The 70 case set has not
   been re-run, so it could be better at multi-turn and worse at the day
   job, and nothing here would show it.
+
+- **The service collapses above 10 concurrent callers and nothing sheds
+  load.** Measured in ops/k6/load-notes.md. The rate limit is per key, so
+  ten keys at ten requests each pass it and reach a service that cannot
+  serve them. Bounded concurrency with a fast 503 is the fix, and it is
+  not built.
 
 
 ## Open questions

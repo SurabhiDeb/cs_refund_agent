@@ -16,7 +16,9 @@ from typing import Any
 
 from pydantic import ValidationError
 from pydantic_ai import Agent, RunContext
+from pydantic_ai.models import Model
 from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.models.test import TestModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ModelSettings
 from pydantic_ai.usage import UsageLimits
@@ -61,12 +63,20 @@ def _refused(error: ToolRefusal) -> dict[str, Any]:
 
 
 def build_agent(prompt_version: str, *, may_write: bool = True) -> Agent[Deps, Outcome]:
-    model = OpenAIChatModel(
-        settings.llm_model,
-        provider=OpenAIProvider(
-            base_url=settings.llm_base_url,
-            api_key=settings.llm_api_key,
-        ),
+    # A fake model is a loaded gun pointed at your own results, so it is a
+    # setting rather than a default, and /health reports it. Load tests
+    # measure the service, not the gateway, and the gateway is the only
+    # part that costs money.
+    model: Model = (
+        TestModel()
+        if settings.fake_model
+        else OpenAIChatModel(
+            settings.llm_model,
+            provider=OpenAIProvider(
+                base_url=settings.llm_base_url,
+                api_key=settings.llm_api_key,
+            ),
+        )
     )
 
     agent: Agent[Deps, Outcome] = Agent(
