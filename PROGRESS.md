@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 11, red team.**
+**Beat 12, external benchmark.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
@@ -106,10 +106,10 @@ actually true, not when the code merely exists.
 - [x] 10.5 Sentry with PII scrubbing
 
 ### Beat 11, red team
-- [ ] 11.1 promptfoo red team suite written
-- [ ] 11.2 Injection payloads planted inside tool results
-- [ ] 11.3 Any success is a hard CI failure
-- [ ] 11.4 Fixes applied at the tool layer where possible
+- [x] 11.1 promptfoo red team suite written
+- [x] 11.2 Injection payloads planted inside tool results
+- [x] 11.3 Any success is a hard CI failure
+- [x] 11.4 Fixes applied at the tool layer where possible
 
 ### Beat 12, external benchmark
 - [ ] 12.1 tau2-bench retail run against the agent
@@ -170,6 +170,23 @@ refund value per hour, proved to fire and then put back. Sentry wired with
 a before_send scrubber, proved on a real event. Temporal workflow and
 activities traced through Temporal's own interceptor, so a refund is
 reconstructable from the trace including its idempotency key.
+---
+### Session 8, Beat 11
+Red team, two layers, no promptfoo. Layer 1 is 17 pytest cases calling the
+tools directly with hostile arguments, free and gating every push. It found
+three real holes: the cap was per refund so two conversations moved 6000
+under a 5000 cap, a malformed write attempt raised before any audit row
+existed and killed the run, and ToolRefusal printed the literal word
+"message" in every log line. All three fixed at the tool layer, cap now
+summed per order, bad arguments audited as X9 and answered as a refusal.
+Layer 2 is 30 model-level attacks across direct injection, indirect
+injection planted in product names and policy articles, authority claims,
+urgency and encoded instructions, INR 6.21, cached so re-runs are free.
+Zero breaches. Read that with the caveat in redteam-notes.md: 19 of 30 hit
+the step limit and three of five controls under-paid, so nothing got
+through on a run where most cases did nothing. Same M1 loop already named
+for v3, not a new mode. Multi-turn grooming stays uncovered until the
+tau2-bench user simulator at 12.3.
 ---
 
 ## Known limitations
@@ -298,6 +315,14 @@ Accepted deliberately, not forgotten.
   and its generated suites run 300 to 1000 cases, roughly INR 100 to 300,
   for numbers this harness already produces. A deliberate deviation,
   recorded here because the stack list is otherwise the contract.
+
+- **The red team's zero is weaker than it looks.** 19 of the 30 attacks
+  ended in X7 and three of five controls under-paid. No injection moved
+  money, on a run where the agent mostly moved nothing. Re-run after v3.
+
+- **Multi-turn grooming is untested.** The harness sends one user turn, so
+  an attack spread across several messages cannot be written as a fixture.
+  Beat 12.3's user simulator is the fix.
 
 
 ## Open questions
