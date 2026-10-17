@@ -11,6 +11,6 @@ class ToolRefusal(Exception):
     """The tool declined. Not a crash, an answer."""
 
     def __init__(self, code: str, message: str) -> None:
-        super().__init__(f"{code}: message")
+        super().__init__(f"{code}: {message}")
         self.code = code
         self.message = message

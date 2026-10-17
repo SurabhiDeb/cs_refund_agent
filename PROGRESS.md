@@ -284,6 +284,21 @@ Accepted deliberately, not forgotten.
   compose stack. If those containers are down, ops_agent still works but
   records nothing. Fine for dev, wrong for Beat 13.
 
+- - **Only the agent's own write path audits malformed arguments.** The model
+  facing wrapper catches `ValidationError`, writes an X9 row and returns a
+  refusal. A caller that builds `IssueRefundArgs` itself, the Temporal
+  activity or a test, still raises before any audit row exists. Acceptable
+  while every such caller is ours, wrong the moment a second external entry
+  point is added.
+- **Beat 11 does not use promptfoo, though CLAUDE.md's stack lists it.** The
+  red team is two layers inside this repo's own harness: pytest against the
+  tools in `tests/test_red_team_tools.py`, and model level injection
+  fixtures graded on final database state. promptfoo would keep a second
+  cache and a second set of run records that can disagree with the first,
+  and its generated suites run 300 to 1000 cases, roughly INR 100 to 300,
+  for numbers this harness already produces. A deliberate deviation,
+  recorded here because the stack list is otherwise the contract.
+
 
 ## Open questions
 

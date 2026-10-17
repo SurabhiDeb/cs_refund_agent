@@ -287,7 +287,7 @@ def test_a_refused_attempt_is_still_recorded(db: Session, owner: ToolContext) ->
             owner,
             IssueRefundArgs(
                 order_id="ord_C9_01",
-                amount_minor=99999,
+                amount_minor=5001,
                 reason="test",
                 idempotency_key="audited-refusal",
             ),

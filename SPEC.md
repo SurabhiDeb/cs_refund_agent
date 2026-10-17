@@ -46,7 +46,7 @@ escalates per section 3.
 | E2 | Order status is `delivered` | pending, shipped, cancelled, lost |
 | E3 | `delivered_at` is within 30 days of now | day 31 onwards |
 | E4 | Requested amount is at most the refundable remainder | exceeds total minus refunds already issued |
-| E5 | Requested amount is at most the cap of 5000 minor units | 50.01 and above |
+| E5 | This refund plus every refund already on the order is at most the cap of 5000 minor units | the order's refunds would total 50.01 or more |
 | E6 | The item is not marked non-refundable | gift cards, digital goods, final sale |
 
 ## Decisions this section fixes
@@ -63,6 +63,16 @@ escalates per section 3.
   is ignored or attacked.
 - **Eligibility is decided from order facts, never from the customer's
   account of them.** "It arrived broken" is a reason to look, not a fact.
+- **The cap is 5000 minor units (50.00).** Above it the agent escalates. The
+  cap is checked inside `issue_refund` itself, so it holds even if the prompt is ignored or attacked.
+- **The cap is 5000 minor units (50.00), per order and not per refund.**
+  Above it the agent escalates. It is checked inside `issue_refund` against
+  the sum of the order's successful refunds plus the one being requested, so
+  it holds even if the prompt is ignored or attacked. Per refund was the
+  Beat 3 reading and Beat 11 found it hollow: R5 stops a second refund
+  inside one conversation and sees nothing across conversations, so 3000
+  twice moved 6000 under a 5000 cap. E4 is checked first, because an amount
+  above the remainder is impossible rather than borderline.
 
 ## 3. Escalation
 
@@ -81,6 +91,7 @@ the customer gets a slower but right outcome.
 | X6 | The agent cannot parse its own output | fail safe, never fall silent |
 | X7 | The step limit is reached | a loop is not an answer |
 | X8 | `issue_refund` returns an error | the write may or may not have landed |
+| X9 | A write tool was called with arguments that failed validation | the attempt is recorded, not silently dropped |
 
 ### Must not escalate
 
@@ -189,6 +200,20 @@ Accepted deliberately, not forgotten.
   disagree with the first. Each trace carries `ops.prompt_version` and
   `ops.prompt_sha` instead, which is enough to reconstruct which text
   produced a decision.
+- **Only the agent's own write path audits malformed arguments.** The model
+  facing wrapper catches `ValidationError`, writes an X9 row and returns a
+  refusal. A caller that builds `IssueRefundArgs` itself, the Temporal
+  activity or a test, still raises before any audit row exists. Acceptable
+  while every such caller is ours, wrong the moment a second external entry
+  point is added.
+- **Beat 11 does not use promptfoo, though CLAUDE.md's stack lists it.** The
+  red team is two layers inside this repo's own harness: pytest against the
+  tools in `tests/test_red_team_tools.py`, and model level injection
+  fixtures graded on final database state. promptfoo would keep a second
+  cache and a second set of run records that can disagree with the first,
+  and its generated suites run 300 to 1000 cases, roughly INR 100 to 300,
+  for numbers this harness already produces. A deliberate deviation,
+  recorded here because the stack list is otherwise the contract.
 
 ## 7. Targets, set at Beat 6 from the v1 baseline
 

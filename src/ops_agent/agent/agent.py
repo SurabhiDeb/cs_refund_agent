@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from pydantic import ValidationError
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -123,17 +124,28 @@ def build_agent(prompt_version: str, *, may_write: bool = True) -> Agent[Deps, O
             idempotency_key: str,
         ) -> dict[str, Any]:
             """Issue a refund. Amount is in minor units, so 2500 means 25.00."""
+            raw = {
+                "order_id": order_id,
+                "amount_minor": amount_minor,
+                "reason": reason,
+                "idempotency_key": idempotency_key,
+            }
+            # Validation is part of the write path, so a failure is audited
+            # and answered rather than raised. An uncaught ValidationError
+            # here ends the run, which is the one thing rule 7 forbids.
             try:
-                return writes.issue_refund(
-                    ctx.deps.tool_ctx,
-                    writes.IssueRefundArgs(
-                        order_id=order_id,
-                        amount_minor=amount_minor,
-                        reason=reason,
-                        idempotency_key=idempotency_key,
-                    ),
-                    ctx.deps.session,
+                args = writes.IssueRefundArgs(**raw)
+            except ValidationError as error:
+                return _refused(
+                    writes.reject_arguments(
+                        ctx.deps.tool_ctx,
+                        tool="issue_refund",
+                        arguments=raw,
+                        detail=f"{error.error_count()} invalid argument(s)",
+                    )
                 )
+            try:
+                return writes.issue_refund(ctx.deps.tool_ctx, args, ctx.deps.session)
             except ToolRefusal as error:
                 return _refused(error)
 
@@ -142,8 +154,15 @@ def build_agent(prompt_version: str, *, may_write: bool = True) -> Agent[Deps, O
         ctx: RunContext[Deps], reason: str, summary: str
     ) -> dict[str, Any]:
         """Hand the case to a person. Always available."""
+        # Clipped, never rejected. A summary over 2000 characters must not
+        # be able to stop a handover: losing the tail of the text is always
+        # better than losing the escalation. Rule 7.
         return writes.escalate_to_human(
-            ctx.deps.tool_ctx, writes.EscalateArgs(reason=reason, summary=summary)
+            ctx.deps.tool_ctx,
+            writes.EscalateArgs(
+                reason=reason[:64] or "X6",
+                summary=summary[:2000] or "no summary supplied",
+            ),
         )
 
     return agent

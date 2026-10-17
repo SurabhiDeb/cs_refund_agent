@@ -79,6 +79,39 @@ def _refund_id(order_id: str, idempotency_key: str) -> str:
     return "ref_" + digest[:24]
 
 
+def reject_arguments(
+    ctx: ToolContext,
+    *,
+    tool: str,
+    arguments: dict[str, Any],
+    detail: str,
+) -> ToolRefusal:
+    """Audit a write call whose arguments never passed validation.
+
+    The argument model is built before the tool body is entered, so a
+    malformed call used to raise before any audit row existed: an attacker
+    probing the write path with bad arguments left no trace at all, and the
+    exception ended the run instead of escalating. X9 gives that attempt a
+    row and gives the model a refusal it can read.
+    """
+    # Stringified and clipped. These values came from the model, so they can
+    # be any shape and any length, and neither json.dumps nor a String(32)
+    # column should be the thing that loses the record.
+    safe = {str(key)[:64]: str(value)[:500] for key, value in arguments.items()}
+    attempted_order = safe.get("order_id")
+    _audit(
+        customer_id=ctx.customer_id,
+        tool=tool,
+        arguments=safe,
+        allowed=False,
+        reason="X9",
+        order_id=attempted_order[:32] if attempted_order else None,
+    )
+    # The detail is deliberately vague. Echoing the validation message back
+    # would describe the tool schema to whoever is probing it, which is R7.
+    return ToolRefusal("X9", f"Those arguments were rejected: {detail}")
+
+
 def issue_refund(
     ctx: ToolContext, args: IssueRefundArgs, session: Session
 ) -> dict[str, Any]:
@@ -131,16 +164,9 @@ def issue_refund(
     if ctx.refunds_issued:
         raise refuse("R5", "A refund has already been issued in this conversation.")
 
-    # The cap. In code, so it holds even if the prompt is ignored or attacked.
-    if args.amount_minor > settings.refund_cap_minor_units:
-        raise refuse(
-            "X1",
-            f"{args.amount_minor} is above the cap of "
-            f"{settings.refund_cap_minor_units}. A human must approve this.",
-        )
-
-    # E4. Read inside the same locked transaction, which is what makes this
-    # safe. A CHECK constraint cannot sum rows in another table.
+    # What this order has already paid out. Read inside the same locked
+    # transaction, which is what makes both checks below safe. A CHECK
+    # constraint cannot sum rows in another table.
     already = (
         session.scalar(
             select(func.coalesce(func.sum(Refund.amount_minor), 0)).where(
@@ -150,11 +176,28 @@ def issue_refund(
         )
         or 0
     )
+
+    # E4 first, ahead of the cap. An amount above the remainder is
+    # impossible rather than borderline, so it gets the refusal that says so
+    # instead of a human's attention.
     remainder = order.total_minor - already
     if args.amount_minor > remainder:
         raise refuse(
             "E4",
             f"Only {remainder} remains refundable on this order.",
+        )
+
+    # The cap, per order rather than per refund. A per refund cap stops one
+    # large payment and nothing else: R5 blocks a second refund inside one
+    # conversation and cannot see across conversations, so 3000 twice on the
+    # same order moved 6000 under a 5000 cap. Summing subsumes the old
+    # single amount check, since already is never negative.
+    if already + args.amount_minor > settings.refund_cap_minor_units:
+        raise refuse(
+            "X1",
+            f"{already + args.amount_minor} across this order is above the "
+            f"cap of {settings.refund_cap_minor_units}. A human must "
+            f"approve this.",
         )
 
     refund = Refund(
