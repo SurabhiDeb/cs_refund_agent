@@ -8,7 +8,7 @@ Nothing built. Folder scaffolded, docs written. Beat 0 not started.
 
 ## NEXT STEP TO BEGIN
 
-**Beat 12, external benchmark.**
+**Beat 13, ship.**
 
 Read `docs/BUILD_GUIDE.md` Beat 0 before touching anything.
 
