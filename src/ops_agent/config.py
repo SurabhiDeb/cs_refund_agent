@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     database_url: str
     redis_url: str = "redis://localhost:6380/0"
     temporal_address: str = "localhost:7233"
+    # Route refunds through the Temporal workflow instead of writing them
+    # in this process. Off in tests and evals, on wherever a crash between
+    # deciding and writing would cost real money.
+    durable_refunds: bool = False
     llm_base_url: str
     llm_api_key: str
     llm_model: str

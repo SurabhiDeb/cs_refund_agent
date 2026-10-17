@@ -28,6 +28,7 @@ from ops_agent.obs.metrics import TOOL_REFUSALS
 from ops_agent.tools import reads, writes
 from ops_agent.tools.context import ToolContext
 from ops_agent.tools.errors import ToolRefusal
+from ops_agent.tools.executor import RefundExecutor, direct_refund
 
 PROMPTS = Path(__file__).resolve().parent / "prompts"
 
@@ -47,6 +48,10 @@ class Deps:
 
     tool_ctx: ToolContext
     session: Session
+
+    # How the write happens. Direct in tests and evals, Temporal in the
+    # service, so there is one write path per deployment and not two.
+    refund: RefundExecutor = direct_refund
 
 
 def _refused(error: ToolRefusal) -> dict[str, Any]:
@@ -145,7 +150,7 @@ def build_agent(prompt_version: str, *, may_write: bool = True) -> Agent[Deps, O
                     )
                 )
             try:
-                return writes.issue_refund(ctx.deps.tool_ctx, args, ctx.deps.session)
+                return ctx.deps.refund(ctx.deps.tool_ctx, args, ctx.deps.session)
             except ToolRefusal as error:
                 return _refused(error)
 

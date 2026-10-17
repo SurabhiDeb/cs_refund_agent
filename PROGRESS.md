@@ -285,10 +285,14 @@ Accepted deliberately, not forgotten.
 
 - the alert fires in Prometheus only — there’s no Alertmanager, so nothing actually pages anyone yet.
 
-- **A refund over HTTP is not durable.** `/chat` calls `writes.issue_refund`
-  directly, not the Temporal workflow. Everything Beat 8 built, retry on
-  crash and compensation, applies only to the workflow path. The two paths
-  need to become one before anything ships.
+- **The durable write path exists but has not been proved end to end.**
+  `/chat` now calls whichever executor `DURABLE_REFUNDS` selects, so the
+  service can take the Temporal path that Beat 8 built. Tests prove the
+  selection and prove the kill switch and R5 are re-checked before the
+  workflow starts, because the activity builds its own ToolContext in
+  another process and neither rule reaches it. What is not proved is a
+  real refund travelling that path from an HTTP call, with a worker
+  running. That belongs with the Beat 13 deploy.
 
 - **Nothing pages anyone.** `RefundValuePerHourHigh` evaluates in Prometheus
   and was proved to fire, but there is no Alertmanager, so firing means a

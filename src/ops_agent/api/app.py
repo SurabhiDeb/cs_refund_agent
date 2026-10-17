@@ -31,6 +31,7 @@ from ops_agent.obs.metrics import RUNS as RUNS_TOTAL
 from ops_agent.obs.redact import install, redact
 from ops_agent.obs.tracing import install_tracing, tracer
 from ops_agent.tools.context import ToolContext
+from ops_agent.tools.executor import RefundExecutor, direct_refund, workflow_refund
 
 
 def _skip_telemetry(scope: MutableMapping[str, Any]) -> bool:
@@ -62,6 +63,12 @@ RUNS: dict[str, dict[str, Any]] = {}
 # an edit, so this sha is stable for the life of the process.
 PROMPT_VERSION = "v2"
 PROMPT_SHA = hashlib.sha256(load_prompt(PROMPT_VERSION).encode()).hexdigest()[:16]
+
+
+def refund_executor() -> RefundExecutor:
+    """One place decides how a refund is written, so the service and the
+    eval harness can never quietly disagree about it."""
+    return workflow_refund if settings.durable_refunds else direct_refund
 
 
 class ChatRequest(BaseModel):
@@ -148,7 +155,11 @@ def chat(
         ):
             result = agent.run_sync(
                 request.message,
-                deps=Deps(tool_ctx=tool_ctx, session=session),
+                deps=Deps(
+                    tool_ctx=tool_ctx,
+                    session=session,
+                    refund=refund_executor(),
+                ),
                 usage_limits=USAGE_LIMITS,
             )
 
