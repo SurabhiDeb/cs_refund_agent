@@ -1,0 +1,4 @@
+# aws-smithy-json DoS, listed in temporalio 1.37.0's vendored sdk-core Cargo.lock.
+# 1.37.0 is the newest temporalio; no fixed release yet. Remove when one ships.
+# Approved by Surabhi 2026-11-27. Expires so the scan blocks on it again.
+CVE-2026-18140 exp:2027-01-31
