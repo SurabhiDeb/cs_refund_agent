@@ -24,6 +24,11 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 FROM python:3.13-slim AS runtime
 
+# Pull Debian security fixes released after the base image was built.
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 # A fixed uid, so the files it owns mean the same thing on every host.
 RUN useradd --create-home --uid 10001 appuser
 
