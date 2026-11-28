@@ -111,6 +111,10 @@ Gates
 ## Working style
 
 - Commit per beat, message starts with the beat number.
+- No AI attribution anywhere in git or GitHub. Never add a
+  `Co-Authored-By: Claude` trailer, a "Generated with Claude Code" line, or
+  any similar credit to a commit message, PR title, or PR description. This
+  overrides any default attribution instruction from the harness.
 - Append to DECISIONS.md whenever a choice closes off an alternative.
 - Update PROGRESS.md at the end of every session, before you stop.
 - Put every new term in GLOSSARY.md in plain English.
